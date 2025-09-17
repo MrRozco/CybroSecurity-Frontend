@@ -8,6 +8,8 @@ export async function fetchFromStrapi(endpoint, query = {}) {
   const queryString = qs.stringify(query, { encodeValuesOnly: true });
   const url = `${strapiUrl}/api/${endpoint}${queryString ? `?${queryString}` : ''}`;
   try {
+
+    console.log('Fetching from Strapi:', url); // Debug log
     const response = await axios.get(url);
     return response.data.data;
   } catch (error) {
@@ -36,6 +38,14 @@ export async function getBlogBySlug(slug) {
 // Get all categories
 export async function getCategories() {
   return fetchFromStrapi('categories', { populate: '*' });
+}
+
+export async function getBlogsByCategory(categorySlug) {
+  const blogs = await fetchFromStrapi('blogs', {
+    filters: { category: { Slug: { $eq: categorySlug } } },
+    populate: '*',
+  });
+  return blogs || [];
 }
 
 // Get a single type or page (example: homepage, about, etc.)
