@@ -14,7 +14,7 @@ export default async function BlogPost({ params }) {
     <div className="container mx-auto p-4">
       {blog?.FeaturedImage && (
         <Image
-          src={`${process.env.NEXT_PUBLIC_STRAPI_API_URL}${blog.FeaturedImage.url}`}
+          src={`${blog.FeaturedImage.url}`}
           alt={blog.Title || 'Blog Featured Image!'}
           width={800}
           height={400}

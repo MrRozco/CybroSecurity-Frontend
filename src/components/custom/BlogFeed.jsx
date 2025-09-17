@@ -45,7 +45,7 @@ export default function BlogFeed({ category, blogs }) {
                                 <div className="relative">
                                     <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/10 to-transparent rounded"></div>
                                     <Image
-                                        src={`${process.env.NEXT_PUBLIC_STRAPI_API_URL}${blog.FeaturedImage.url}`}
+                                        src={`${blog.FeaturedImage.url}`}
                                         alt={blog.Title}
                                         width={700}
                                         height={500}
