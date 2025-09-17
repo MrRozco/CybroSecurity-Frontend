@@ -1,9 +1,12 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #040e1a;
+  --foreground: #fff;
 }
+
+
 
 @theme inline {
   --color-background: var(--background);
@@ -14,7 +17,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #040e1a;
     --foreground: #ededed;
   }
 }
@@ -22,5 +25,81 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Bebas Neue", sans-serif;;
+}
+
+.container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 40px;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 10px;
+
+  }
+  @media screen and (max-width: 480px) {
+    padding: 0 5px;
+  }
+  @media screen and (max-width: 320px) {
+    padding: 0 2px;
+  }
+  @media screen and (max-width: 240px) {
+    padding: 0 1px;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Bebas Neue", sans-serif;
+}
+
+h1 {
+  font-size: 6rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 4rem;
+  }
+}
+h2 {
+  font-size: 2.5rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+h3 {
+  font-size: 2.4rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.8rem;
+  }
+}
+h4 {
+  font-size: 2.2rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+}
+h5 {
+  font-size: 1.25rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+}
+h6 {
+  font-size: 1rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
 }

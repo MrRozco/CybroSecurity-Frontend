@@ -3,13 +3,14 @@ import { getSingleType } from '@/lib/strapi';
 import PageRenderer from '@/components/PageRenderer';
 
 
-export default async function Home() {
+export default async function Crew() {
   
-  const homepage = await getSingleType('homepage');
+  const crew = await getSingleType('crew');
+
 
   return (
     <div className="container mx-auto p-4">
-      <PageRenderer page={homepage} />
+      <PageRenderer page={crew} />
     </div>
   );
 }
