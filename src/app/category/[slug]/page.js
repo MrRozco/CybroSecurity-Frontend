@@ -12,6 +12,8 @@ export default async function CategoryPage({ params }) {
 
   if (!category) {
     return <div>Category not found</div>;
+
+    
   }
 
   const response = await fetch(
