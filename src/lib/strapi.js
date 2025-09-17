@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 
-const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'https://miraculous-agreement-441a168338.strapiapp.com';
+const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://miraculous-agreement-441a168338.strapiapp.com';
 
 // Generic fetcher for any endpoint
 export async function fetchFromStrapi(endpoint, query = {}) {
