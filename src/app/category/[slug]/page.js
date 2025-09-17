@@ -21,6 +21,8 @@ export default async function CategoryPage({ params }) {
   );
   const blogs = (await response.json()).data;
 
+  console.log('NEXT_PUBLIC_STRAPI_API_URL:', process.env.NEXT_PUBLIC_STRAPI_API_URL);
+
   return (
     <BlogFeed category={category} blogs={blogs} />
   );
