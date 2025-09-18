@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Skeleton from '@mui/material/Skeleton';
 
 export default function BlogFeed({ category, blogs }) {
 
@@ -37,30 +38,37 @@ export default function BlogFeed({ category, blogs }) {
         <section className="container mx-auto p-4">
             <h1 className="text-3xl font-bold mb-6">{category.Name}</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {currentBlogs.map((blog, i) => (
-                  <Link href={`/blogs/${blog.Slug}`} className="text-blue-500 mt-2 inline-block hover:scale-103 transition-transform duration-300 " key={i}>
-                    <div key={blog.id} className="p-4 shadow">
-                        <div className="relative">
-                            {blog?.FeaturedImage && (
+                {currentBlogs && currentBlogs.length > 0 ? (
+                    currentBlogs.map((blog, i) => (
+                        <Link href={`/blogs/${blog.Slug}`} className="text-blue-500 mt-2 inline-block hover:scale-103 transition-transform duration-300 " key={i}>
+                            <div key={blog.id} className="p-4 shadow">
                                 <div className="relative">
-                                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/10 to-transparent rounded"></div>
-                                    <Image
-                                        src={`${blog.FeaturedImage.url}`}
-                                        alt={blog.Title}
-                                        width={700}
-                                        height={500}
-                                        className="object-cover rounded"
-                                    />
+                                    {blog?.FeaturedImage && (
+                                        <div className="relative">
+                                            <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/10 to-transparent rounded"></div>
+                                            <Image
+                                                src={`${blog.FeaturedImage.url}`}
+                                                alt={blog.Title}
+                                                width={700}
+                                                height={500}
+                                                className="object-cover rounded"
+                                            />
+                                        </div>
+                                    )}
+                                    <h2 className="absolute bottom-4 left-4 text-6xl font-semibold text-white z-20">{blog.Title}</h2>
                                 </div>
-                            )}
-                            <h2 className="absolute bottom-4 left-4 text-6xl font-semibold text-white z-20">{blog.Title}</h2>
+                                <p className="text-gray-600 mt-4">{blog.Excerpt}</p>
+                            </div>
+                        </Link>
+                    ))
+                ) : (
+                    
+
+                        <div >  
+                            <Skeleton variant="rounded" width='100%' height={500} sx={{ bgcolor: 'grey.900' }} style={{marginBottom: 6}}/>
+                            <Skeleton variant="rounded" width='100%'  height={70} sx={{ bgcolor: 'grey.900' }}/>
                         </div>
-                        <p className="text-gray-600 mt-4">{blog.Excerpt}</p>
-                        
-                        
-                    </div>
-                    </Link>
-                ))}
+                )}
             </div>
             {totalPages > 1 && (
                 <div className="flex justify-center items-center mt-6 space-x-2">

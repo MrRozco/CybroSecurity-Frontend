@@ -8,8 +8,6 @@ export async function fetchFromStrapi(endpoint, query = {}) {
   const queryString = qs.stringify(query, { encodeValuesOnly: true });
   const url = `${strapiUrl}/api/${endpoint}${queryString ? `?${queryString}` : ''}`;
   try {
-
-    console.log('Fetching from Strapi:', url); // Debug log
     const response = await axios.get(url);
     return response.data.data;
   } catch (error) {

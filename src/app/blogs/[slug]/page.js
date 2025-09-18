@@ -33,7 +33,7 @@ export default async function BlogPost({ params }) {
             />
             )}
         {blog.category && (
-        <div className="mt-4">
+        <div className="mt-4 text-2xl">
             <strong>Category: </strong>
             {
             <Link href={`/category/${blog.category.Slug}`} key={blog.category.id} className="mr-2 text-blue-500">
