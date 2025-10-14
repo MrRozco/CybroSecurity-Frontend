@@ -1,8 +1,10 @@
+
 import { getCategories } from "@/lib/strapi";
 import Link from 'next/link';
 import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
 import Box from '@mui/material/Box';
+
 
 export default async function  CategoryFeed(data) {
 
@@ -17,7 +19,13 @@ export default async function  CategoryFeed(data) {
     const response = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/blogs?filters[category][Slug][$eq]=${feedCategory.Slug}&populate=*`
   );
-  
+
+        function buildImageSrc(url) {
+        if (url.startsWith("http")) {
+            return url;
+        }
+        return `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${url.replace(/^\/+/, "")}`;
+        }
 
     const categoryBlogs = (await response.json()).data;
 
@@ -48,11 +56,7 @@ export default async function  CategoryFeed(data) {
                                     {/* Overlay only covers the image */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent rounded z-10"></div>
                                     <Image
-                                    src={
-                                        firstBlog.FeaturedImage.url.startsWith("http")
-                                            ? firstBlog.FeaturedImage.url
-                                            : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${firstBlog.FeaturedImage.url.replace(/^\/+/, "")}`
-                                        }
+                                    src={buildImageSrc(firstBlog.FeaturedImage.url)}
                                     alt={firstBlog.FeaturedImage.alternativeText || firstBlog.Title}
                                     width={900}
                                     height={700}
