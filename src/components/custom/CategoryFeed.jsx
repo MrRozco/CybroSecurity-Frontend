@@ -17,6 +17,7 @@ export default async function  CategoryFeed(data) {
     const response = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/blogs?filters[category][Slug][$eq]=${feedCategory.Slug}&populate=*`
   );
+  
 
     const categoryBlogs = (await response.json()).data;
 
