@@ -49,9 +49,9 @@ export default async function  CategoryFeed(data) {
                                     <Image
                                     src={
                                         firstBlog.FeaturedImage.url.startsWith("http")
-                                        ? firstBlog.FeaturedImage.url
-                                        : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${firstBlog.FeaturedImage.url.replace(/^\/+/, "")}`
-                                    }
+                                            ? firstBlog.FeaturedImage.url
+                                            : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${firstBlog.FeaturedImage.url.replace(/^\/+/, "")}`
+                                        }
                                     alt={firstBlog.FeaturedImage.alternativeText || firstBlog.Title}
                                     width={900}
                                     height={700}
@@ -79,7 +79,11 @@ export default async function  CategoryFeed(data) {
                             </div>
                             {blog.FeaturedImage && (
                                 <Image
-                                    src={`${process.env.NEXT_PUBLIC_STRAPI_API_URL}${blog.FeaturedImage.url}`}
+                                    src={
+                                        blog.FeaturedImage.url.startsWith("http")
+                                        ? blog.FeaturedImage.url
+                                        : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${blog.FeaturedImage.url.replace(/^\/+/, "")}`
+                                    }
                                     alt={blog.Title}
                                     width={150}
                                     height={150}
