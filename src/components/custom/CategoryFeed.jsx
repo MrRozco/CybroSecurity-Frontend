@@ -54,8 +54,8 @@ export default async function  CategoryFeed(data) {
                                             : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${firstBlog.FeaturedImage.url.replace(/^\/+/, "")}`
                                         }
                                     alt={firstBlog.FeaturedImage.alternativeText || firstBlog.Title}
-                                    width={900}
-                                    height={700}
+                                    width={899}
+                                    height={699}
                                     className="rounded object-cover"
                                     />
                                 </div>
