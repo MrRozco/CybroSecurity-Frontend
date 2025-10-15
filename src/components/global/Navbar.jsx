@@ -1,12 +1,25 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Navbar({ data }) {
   if (!data) return null;
 
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // Close menu on outside click
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
 
   return (
     <nav className="container flex justify-between items-center p-4">
@@ -43,18 +56,27 @@ export default function Navbar({ data }) {
                 )}
               </li>
             ))}
-        
+        </ul>
+      </div>
 
-            {/* hambuger menu for desktop */}
-
+      {/* Hamburger menu button for desktop */}
       <button
         className="hidden md:block text-[#04c4f3] text-4xl"
         onClick={() => setIsOpen(!isOpen)}
       >
-        &#9776; {/* Unicode hamburger icon */}
+        &#9776;
       </button>
-      {/* Mobile menu: always rendered for smooth transition */}
+      {/* Hamburger menu button for mobile */}
+      <button
+        className="block md:hidden text-[#04c4f3] text-4xl"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        &#9776;
+      </button>
+
+      {/* Side menu for both desktop and mobile */}
       <div
+        ref={menuRef}
         className={`
           fixed top-0 right-0 h-full w-[70vw] max-w-xs bg-gray-800 p-4 rounded-l-lg shadow-lg 
           transition-transform duration-300 ease-in-out
@@ -69,61 +91,21 @@ export default function Navbar({ data }) {
           &times;
         </button>
         <ul className="flex flex-col gap-5 space-y-4 mt-20">
-          {Array.isArray(data.links) &&
-            data.hamburgerLinks.map((link, index) => (
-              <li key={index}>
-                {link?.url && link?.text && (
-                  <Link
-                    href={link.url}
-                    className="text-[#04c4f3] text-2xl hover:underline"
-                  >
-                    {link.text}
-                  </Link>
-                )}
-              </li>
-            ))}
-        </ul>
-      </div>
-      </ul>
-      </div>
-    
-      {/* hambuger menu for mobile */}
-
-      <button
-        className="block md:hidden text-[#04c4f3] text-4xl"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        &#9776; {/* Unicode hamburger icon */}
-      </button>
-      {/* Mobile menu: always rendered for smooth transition */}
-      <div
-        className={`
-          fixed top-0 right-0 h-full w-[70vw] max-w-xs bg-gray-800 p-4 rounded-l-lg shadow-lg md:hidden
-          transition-transform duration-300 ease-in-out
-          z-50
-          ${isOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'}
-        `}
-      >
-        <button
-          className="absolute top-2 right-2 text-[#04c4f3] text-6xl"
-          onClick={() => setIsOpen(false)}
-        >
-          &times;
-        </button>
-        <ul className="flex flex-col gap-5 space-y-4 mt-20">
-          {Array.isArray(data.links) &&
-            data.hamburgerLinks.map((link, index) => (
-              <li key={index}>
-                {link?.url && link?.text && (
-                  <Link
-                    href={link.url}
-                    className="text-[#04c4f3] text-2xl hover:underline"
-                  >
-                    {link.text}
-                  </Link>
-                )}
-              </li>
-            ))}
+          {Array.isArray(data.hamburgerLinks)
+            ? data.hamburgerLinks.map((link, index) => (
+                <li key={index}>
+                  {link?.url && link?.text && (
+                    <Link
+                      href={link.url}
+                      className="text-[#04c4f3] text-2xl hover:underline"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.text}
+                    </Link>
+                  )}
+                </li>
+              ))
+            : null}
         </ul>
       </div>
     </nav>
