@@ -73,7 +73,7 @@ export default async function  CategoryFeed(data) {
                 <div>
                     {otherBlogs.length > 0 ? ( otherBlogs.slice(0, 5).map((blog, i) => (
                         <Link key={i} href={`/blogs/${blog.Slug}`} className="">
-                        <div key={blog.id} className="flex  hover:bg-[#1D2630] p-4 justify-between items-center border-b-6 border-[#1D2630]">
+                        <div key={blog.id} className="flex  hover:bg-[#1D2630] p-4 justify-between items-center border-b-6 border-[#1D2630] gap-2">
                             <div>
                                 <h3 className="text-4xl font-bold mb-2 text-white">{blog.Title}</h3>
                                 <p className="text-white mb-4 text-xl">{blog.Excerpt}</p>       

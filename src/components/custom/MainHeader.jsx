@@ -76,15 +76,15 @@ export default function MainHeader({ data }) {
           {otherBlogs.length > 0 ? (
             otherBlogs.map((blog) => (
 
-            <Link href={`/blogs/${blog.Slug}`} key={blog.id} className="flex justify-between items-start gap-5 border-b-2 border-[#0467df] rounded p-2 hover:bg-[#1D2630] transition">
-              <div>
-                <h2 className="text-2xl md:text-4xl font-semibold">{blog.Title}</h2>
-                <div className="flex items-center gap-2 mt-1">
+            <Link href={`/blogs/${blog.Slug}`} key={blog.id} className="flex justify-between items-center gap-1 border-b-2 border-[#0467df] rounded p-2 hover:bg-[#1D2630] transition">
+              <div className="w-2/3">
+                <h2 className="text-2xl md:text-2xl font-semibold">{blog.Title}</h2>
+                <div className="flex items-center gap-2 mt-1 ">
                   {blog.author?.Name && (
                     <>
                       <p>By</p>
 
-                        <p className="text-nd text-[#04c4f3]">{blog.author.Name}</p>
+                        <p className="text-md text-[#04c4f3]">{blog.author.Name}</p>
 
                     </>
                   )}
@@ -98,17 +98,19 @@ export default function MainHeader({ data }) {
                   )}
                 </div>
               </div>
-              <Image
-                src={
-                  blog.FeaturedImage.url.startsWith("http")
-                    ? blog.FeaturedImage.url
-                    : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${blog.FeaturedImage.url.replace(/^\/+/, "")}`
-                }
-                alt={blog.FeaturedImage.alternativeText || blog.Title}
-                width={100}
-                height={100}
-                className="rounded "
-              />
+              <div className="w-1/3">
+                <Image
+                  src={
+                    blog.FeaturedImage.url.startsWith("http")
+                      ? blog.FeaturedImage.url
+                      : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${blog.FeaturedImage.url.replace(/^\/+/, "")}`
+                  }
+                  alt={blog.FeaturedImage.alternativeText || blog.Title}
+                  width={200}
+                  height={112}
+                  className="rounded"
+                />
+              </div>
             </Link>
           )))
           :
