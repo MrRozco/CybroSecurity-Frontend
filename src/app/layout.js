@@ -28,9 +28,11 @@ export const metadata = {
 export default async function RootLayout({ children }) {
 
   const homepage = await getSingleType('homepage');
+
+  console.log('Homepage data in layout:', homepage);
   
-  const footer = homepage.content[4]?.__component === 'structure.footer' ? homepage.content[4] : null;
   const navbar = homepage.content[0]?.__component === 'structure.navbar' ? homepage.content[0] : null;
+  const footer = homepage.content[homepage.content.length - 1]?.__component === 'structure.footer' ? homepage.content[homepage.content.length - 1] : null;
 
   return (
     <html lang="en">
