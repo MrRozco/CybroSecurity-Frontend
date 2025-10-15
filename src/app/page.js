@@ -8,7 +8,7 @@ export default async function Home() {
   const homepage = await getSingleType('homepage');
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto py-4 px-10">
       <PageRenderer page={homepage} />
     </div>
   );

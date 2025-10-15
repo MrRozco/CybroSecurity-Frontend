@@ -22,7 +22,7 @@ export default function Navbar({ data }) {
   }, [isOpen]);
 
   return (
-    <nav className="container flex justify-between items-center p-4">
+    <nav className="container flex justify-between items-center p-6">
       {data.logo?.url && (
         <Link href="/">
           <Image
@@ -38,7 +38,7 @@ export default function Navbar({ data }) {
           />
         </Link>
       )}
-      <div className="hidden md:block pb-4 border-b border-[#04c4f3] w-full md:w-auto">
+      <div className="hidden md:flex flex-row gap-4 pb-4 border-b border-[#04c4f3] w-full md:w-auto">
         <ul className="flex space-x-4 items-center">
           {Array.isArray(data.links) &&
             data.links.map((link, index) => (
@@ -57,15 +57,16 @@ export default function Navbar({ data }) {
               </li>
             ))}
         </ul>
-      </div>
-
-      {/* Hamburger menu button for desktop */}
-      <button
-        className="hidden md:block text-[#04c4f3] text-4xl"
+        <button
+        className="hidden md:block text-[#04c4f3] text-4xl cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         &#9776;
       </button>
+      </div>
+
+      {/* Hamburger menu button for desktop */}
+      
       {/* Hamburger menu button for mobile */}
       <button
         className="block md:hidden text-[#04c4f3] text-4xl"
