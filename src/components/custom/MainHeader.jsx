@@ -37,7 +37,7 @@ export default function MainHeader({ data }) {
                 className="rounded object-cover"
               />
               <div className="absolute bottom-0 md:bottom-auto md:-mt-20 left-6 z-20">
-                <h1 className="text-5xl md:text-8xl text-right font-bold">{firstBlog.Title}</h1>
+                <h1 className="text-3xl! md:text-6xl! text-right font-bold">{firstBlog.Title}</h1>
                 <p className="mt-2 text-2xl text-right">{firstBlog.Excerpt}</p>
                 <div className="flex items-center gap-2 mt-1 justify-end">
                   {firstBlog.author?.Name && (
@@ -78,7 +78,7 @@ export default function MainHeader({ data }) {
 
             <Link href={`/blogs/${blog.Slug}`} key={blog.id} className="flex justify-between items-center gap-1 border-b-2 border-[#0467df] rounded p-2 hover:bg-[#1D2630] transition">
               <div className="w-2/3">
-                <h2 className="text-2xl md:text-2xl font-semibold">{blog.Title}</h2>
+                <h2 className="text-2xl! md:text-3xl! font-semibold">{blog.Title}</h2>
                 <div className="flex items-center gap-2 mt-1 ">
                   {blog.author?.Name && (
                     <>
