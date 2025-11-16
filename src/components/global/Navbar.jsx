@@ -69,7 +69,7 @@ export default function Navbar({ data }) {
       
       {/* Hamburger menu button for mobile */}
       <button
-        className="block md:hidden text-[#04c4f3] text-4xl"
+        className="block md:hidden text-[#04c4f3] text-4xl mr-5 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         &#9776;
