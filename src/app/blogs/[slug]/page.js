@@ -1,6 +1,22 @@
 import Image from 'next/image';
-import { getBlogBySlug } from '@/lib/strapi';
+import { getBlogBySlug, getBlogs } from '@/lib/strapi';
 import Link from 'next/link';
+
+// Generate static params for all blogs at build time
+export async function generateStaticParams() {
+  try {
+    const blogs = await getBlogs();
+    return blogs.map((blog) => ({
+      slug: blog.Slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params for blogs:', error);
+    return [];
+  }
+}
+
+// Enable ISR (Incremental Static Regeneration)
+export const revalidate = 3600; // Revalidate every hour
 
 export default async function BlogPost({ params }) {
   const blog = await getBlogBySlug(params.slug);
