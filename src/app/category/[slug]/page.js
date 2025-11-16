@@ -3,6 +3,28 @@ import Image from 'next/image';
 import { getCategories, getBlogsByCategory } from '@/lib/strapi';
 import BlogFeed from '@/components/custom/BlogFeed';
 
+// Generate metadata dynamically based on category
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  try {
+    const categories = await getCategories();
+    const category = categories.find((cat) => cat.Slug === slug);
+    
+    if (!category) {
+      return { title: "Category Not Found" };
+    }
+    
+    return {
+      title: category.Name,
+      description: `Browse all ${category.Name} articles and resources`,
+    };
+  } catch (error) {
+    return {
+      title: "Category",
+    };
+  }
+}
+
 // Generate static params for all categories at build time
 export async function generateStaticParams() {
   try {

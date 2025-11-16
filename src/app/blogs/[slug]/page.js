@@ -2,6 +2,21 @@ import Image from 'next/image';
 import { getBlogBySlug, getBlogs } from '@/lib/strapi';
 import Link from 'next/link';
 
+// Generate metadata dynamically based on blog
+export async function generateMetadata({ params }) {
+  try {
+    const blog = await getBlogBySlug(params.slug);
+    return {
+      title: blog.Title,
+      description: blog.Content?.substring(0, 160) || "Read our latest blog post",
+    };
+  } catch (error) {
+    return {
+      title: "Blog Not Found",
+    };
+  }
+}
+
 // Generate static params for all blogs at build time
 export async function generateStaticParams() {
   try {
