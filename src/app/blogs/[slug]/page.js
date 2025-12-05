@@ -6,9 +6,13 @@ import Link from 'next/link';
 export async function generateMetadata({ params }) {
   try {
     const blog = await getBlogBySlug(params.slug);
+    
+    // Strip HTML tags for the description
+    const plainTextContent = blog.Content?.replace(/<[^>]+>/g, '') || "";
+    
     return {
       title: blog.Title,
-      description: blog.Content?.substring(0, 160) || "Read our latest blog post",
+      description: plainTextContent.substring(0, 160) || "Read our latest blog post",
     };
   } catch (error) {
     return {
