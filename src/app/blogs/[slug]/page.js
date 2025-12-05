@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { getBlogBySlug, getBlogs } from '@/lib/strapi';
 import Link from 'next/link';
+import Script from 'next/script';
+import BlogContent from '@/components/custom/BlogContent';
 
 // Generate metadata dynamically based on blog
 export async function generateMetadata({ params }) {
@@ -61,12 +63,7 @@ export default async function BlogPost({ params }) {
         By {blog.author?.Name || 'Unknown'} |{' '}
         {new Date(blog.publishedAt).toLocaleDateString()}
         </p>
-        {blog.Content && (
-            <div
-                className="prose prose-xl prose-invert mb-6 font-sans ck-content"
-                dangerouslySetInnerHTML={{ __html: blog.Content }}
-            />
-            )}
+        {blog.Content && <BlogContent content={blog.Content} />}
         {blog.category && (
         <div className="mt-4 text-2xl">
             <strong>Category: </strong>
