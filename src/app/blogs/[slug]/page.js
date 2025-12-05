@@ -59,7 +59,7 @@ export default async function BlogPost({ params }) {
         </p>
         {blog.Content && (
             <div
-                className="prose mb-6"
+                className="prose prose-xl prose-invert mb-6 font-sans ck-content"
                 dangerouslySetInnerHTML={{ __html: blog.Content }}
             />
             )}
@@ -72,7 +72,7 @@ export default async function BlogPost({ params }) {
             </Link>
             }
         </div>
-            )}
+          )}
     </div>
   );
 }
