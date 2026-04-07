@@ -19,8 +19,8 @@ const Footer = ({ data }) => {
                   : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${logo.url.replace(/^\/+/, "")}`
               }
               alt={logo.alternativeText || "CybroSecurity Logo"}
-              width={200}
-              height={200}
+              width={300}
+              height={150}
               className={styles.footer__logoImage}
             />
           </Link>
