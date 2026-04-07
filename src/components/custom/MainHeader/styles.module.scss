@@ -1,0 +1,172 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// MAIN HEADER — hero section with featured + side stories
+// ============================================================
+
+.mainHeader {
+  padding: $space-4;
+  padding-bottom: $space-24;
+  margin-bottom: $space-20;
+  color: $color-text;
+}
+
+.mainHeader__inner {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+
+  @include respond-above(md) {
+    flex-direction: row;
+  }
+}
+
+// ===== Featured (large) blog =====
+.mainHeader__featured {
+  width: 100%;
+
+  @include respond-above(md) {
+    width: 60%;
+  }
+}
+
+.mainHeader__featuredLink {
+  display: block;
+  position: relative;
+  @include transition(transform);
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.mainHeader__overlay {
+  @include image-overlay;
+  z-index: $z-above;
+}
+
+.mainHeader__featuredImage {
+  border-radius: 0.25rem;
+  object-fit: cover;
+}
+
+.mainHeader__featuredMeta {
+  position: absolute;
+  bottom: 0;
+  left: $space-6;
+  z-index: $z-nav;
+
+  @include respond-above(md) {
+    bottom: auto;
+    margin-top: -$space-20;
+  }
+}
+
+.mainHeader__featuredTitle {
+  font-size: 1.875rem !important; // text-3xl mobile
+  text-align: right;
+  font-weight: bold;
+
+  @include respond-above(md) {
+    font-size: 3.75rem !important; // text-6xl desktop
+  }
+}
+
+.mainHeader__featuredExcerpt {
+  margin-top: $space-2;
+  font-size: 1.5rem;
+  text-align: right;
+}
+
+.mainHeader__featuredAuthor {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin-top: $space-1;
+  justify-content: flex-end;
+
+  p { margin: 0; }
+
+  .mainHeader__authorName{
+    color: $color-accent;
+    font-size: 1.125rem;
+  }
+
+  .mainHeader__categoryName {
+    color: $color-primary;
+  }
+}
+
+// ===== Side stories =====
+.mainHeader__side {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+
+  @include respond-above(md) {
+    width: 40%;
+  }
+}
+
+.mainHeader__topStoriesLabel {
+  color: $color-primary;
+  font-size: 1.5rem;
+}
+
+.mainHeader__storyItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $space-2;
+  border-bottom: 2px solid $color-border;
+  border-radius: 0.25rem;
+  padding: $space-2;
+  @include transition(background-color);
+
+  &:hover {
+    background-color: $color-bg-hover;
+  }
+}
+
+.mainHeader__storyContent {
+  width: 66%;
+}
+
+.mainHeader__storyTitle {
+  font-size: 1.5rem !important; // text-2xl
+  font-weight: 600;
+
+  @include respond-above(md) {
+    font-size: 1.875rem !important; // text-3xl
+  }
+}
+
+.mainHeader__storyMeta {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin-top: $space-1;
+
+  p { margin: 0; }
+
+
+  .mainHeader__authorName{
+    color: $color-accent;
+
+  }
+
+  .mainHeader__categoryName {
+    color: $color-primary;
+    
+  }
+}
+
+.mainHeader__storyThumb {
+  width: 33%;
+}
+
+.mainHeader__storyImage {
+  border-radius: 0.25rem;
+}

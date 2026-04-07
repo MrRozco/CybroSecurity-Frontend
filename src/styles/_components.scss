@@ -1,0 +1,83 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================================
+// SHARED COMPONENT HELPERS
+// (use these via @extend or keep as utility classes)
+// ============================================================
+
+// --- Blog / Article card base ---
+.blog-card {
+  padding: $space-4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+  &__image-wrap {
+    position: relative;
+
+    .overlay {
+      @include image-overlay;
+      z-index: $z-above;
+    }
+  }
+
+  &__title {
+    position: absolute;
+    bottom: $space-4;
+    left: $space-4;
+    z-index: $z-nav;
+  }
+
+  &__excerpt {
+    color: $color-text-muted;
+    margin-top: $space-4;
+  }
+}
+
+// --- Top-stories list item ---
+.top-story-item {
+  @include flex-between;
+  gap: $space-2;
+  border-bottom: 2px solid $color-border-dark;
+  border-radius: 0.25rem;
+  padding: $space-2;
+  @include transition(background-color);
+
+  &:hover {
+    background-color: $color-bg-hover;
+  }
+}
+
+// --- Pagination ---
+.pagination {
+  @include flex-center;
+  gap: $space-2;
+  margin-top: $space-6;
+
+  &__btn {
+    padding: $space-2 $space-4;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-family: inherit;
+    @include transition;
+
+    &--active {
+      background-color: $color-primary-dark;
+      color: $color-text;
+    }
+
+    &--disabled {
+      background-color: #4b5563; // gray-600
+      cursor: not-allowed;
+    }
+
+    &--default {
+      background-color: $color-bg-hover;
+      color: $color-text;
+
+      &:hover:not([disabled]) {
+        background-color: darken($color-bg-hover, 5%);
+      }
+    }
+  }
+}

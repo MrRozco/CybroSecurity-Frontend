@@ -1,0 +1,106 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// BLOG FEED — paginated grid of blog cards
+// ============================================================
+
+.blogFeed {
+  padding: $space-4;
+}
+
+.blogFeed__heading {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: $space-6;
+}
+
+.blogFeed__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include respond-above(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// ===== Individual card =====
+.blogCard {
+  display: block;
+  @include transition(transform);
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.blogCard__inner {
+  padding: $space-4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.blogCard__imageWrap {
+  position: relative;
+}
+
+.blogCard__overlay {
+  @include image-overlay;
+  z-index: $z-above;
+}
+
+.blogCard__image {
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.blogCard__title {
+  position: absolute;
+  bottom: $space-4;
+  left: $space-4;
+  font-size: 3.75rem !important; // text-6xl
+  font-weight: 600;
+  color: $color-text;
+  z-index: $z-nav;
+}
+
+.blogCard__excerpt {
+  color: $color-text-muted;
+  margin-top: $space-4;
+}
+
+// ===== Pagination =====
+.pagination {
+  @include flex-center;
+  gap: $space-2;
+  margin-top: $space-6;
+}
+
+.pagination__btn {
+  padding: $space-2 $space-4;
+  border-radius: 0.25rem;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  @include transition;
+
+  &--active {
+    background-color: $color-primary-dark;
+    color: $color-text;
+  }
+
+  &--disabled {
+    background-color: #4b5563;
+    cursor: not-allowed;
+    color: $color-text;
+  }
+
+  &--default {
+    background-color: $color-bg-hover;
+    color: $color-text;
+
+    &:hover:not([disabled]) {
+      background-color: darken($color-bg-hover, 5%);
+    }
+  }
+}

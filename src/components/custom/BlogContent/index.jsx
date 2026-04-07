@@ -1,11 +1,12 @@
 'use client';
 import { useEffect, useRef } from 'react';
+import styles from './styles.module.scss';
 
 export default function BlogContent({ content }) {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    // 1. Handle Twitter (X) Embeds
+    // Handle Twitter (X) Embeds
     if (content.includes('twitter-tweet')) {
       if (window.twttr?.widgets) {
         window.twttr.widgets.load(contentRef.current);
@@ -19,7 +20,7 @@ export default function BlogContent({ content }) {
       }
     }
 
-    // 2. Handle Instagram Embeds
+    // Handle Instagram Embeds
     if (content.includes('instagram-media')) {
       if (window.instgrm?.Embeds) {
         window.instgrm.Embeds.process();
@@ -31,16 +32,12 @@ export default function BlogContent({ content }) {
         document.body.appendChild(script);
       }
     }
-
-    // YouTube and LinkedIn typically use <iframe> tags, which work automatically
-    // without needing extra scripts injected here.
-
   }, [content]);
 
   return (
     <div
       ref={contentRef}
-      className="prose prose-xl prose-invert mb-6 font-sans ck-content"
+      className={`${styles.blogContent} ck-content`}
       dangerouslySetInnerHTML={{ __html: content }}
     />
   );

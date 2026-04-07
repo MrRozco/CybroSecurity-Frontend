@@ -1,0 +1,75 @@
+// ============================================================
+// COLORS
+// ============================================================
+
+// Brand
+$color-primary:       #19cff9;
+$color-primary-dark:  #0467df;
+$color-accent:        #ff6316;
+$color-accent-purple: #a84bff;
+
+// Background
+$color-bg:            #040e1a;
+$color-bg-card:       #0a223f;
+$color-bg-hover:      #1D2630;
+$color-bg-panel:      #04c4f3; // bright sidebar panel
+
+// Text
+$color-text:          #ffffff;
+$color-text-muted:    #9ca3af; // gray-400 equivalent
+$color-text-dark:     #040e1a;
+
+// Borders / dividers
+$color-border:        #19cff9;
+$color-border-dark:   #1D2630;
+
+// Skeleton / placeholder
+$color-skeleton:      #1a1a1a;
+
+// ============================================================
+// SPACING SCALE
+// ============================================================
+$space-1:  0.25rem;  //  4px
+$space-2:  0.5rem;   //  8px
+$space-3:  0.75rem;  // 12px
+$space-4:  1rem;     // 16px
+$space-5:  1.25rem;  // 20px
+$space-6:  1.5rem;   // 24px
+$space-8:  2rem;     // 32px
+$space-10: 2.5rem;   // 40px
+$space-12: 3rem;     // 48px
+$space-16: 4rem;     // 64px
+$space-20: 5rem;     // 80px
+$space-24: 6rem;     // 96px
+
+// ============================================================
+// BREAKPOINTS
+// ============================================================
+$bp-xs:   320px;
+$bp-sm:   480px;
+$bp-md:   768px;
+$bp-lg:   1024px;
+$bp-xl:   1280px;
+$bp-2xl:  1500px;
+
+// ============================================================
+// LAYOUT
+// ============================================================
+$container-max-width: 1500px;
+$container-padding:   40px;
+
+// ============================================================
+// TRANSITIONS
+// ============================================================
+$transition-fast:   0.2s ease;
+$transition-base:   0.3s ease;
+$transition-slow:   0.4s ease;
+
+// ============================================================
+// Z-INDEX
+// ============================================================
+$z-base:    0;
+$z-above:   10;
+$z-nav:     20;
+$z-overlay: 50;
+$z-modal:   100;

@@ -1,0 +1,64 @@
+// ============================================================
+// GLOBAL SCSS ENTRY POINT
+// Import order matters: variables → mixins → base tokens → layout → components
+// ============================================================
+
+@forward 'variables';
+@forward 'mixins';
+
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'typography';
+@use 'containers';
+@use 'sections';
+@use 'components';
+@use 'animations';
+
+// ============================================================
+// CSS CUSTOM PROPERTIES (runtime theming)
+// ============================================================
+:root {
+  --color-bg:          #{$color-bg};
+  --color-text:        #{$color-text};
+  --color-primary:     #{$color-primary};
+  --color-accent:      #{$color-accent};
+}
+
+// ============================================================
+// BASE RESET / GLOBAL
+// ============================================================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: $color-bg;
+  color: $color-text;
+  font-family: "Bebas Neue", sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}

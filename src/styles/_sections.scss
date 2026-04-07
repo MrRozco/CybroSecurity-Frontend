@@ -1,0 +1,20 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================================
+// SECTIONS — generic section spacing helpers
+// ============================================================
+
+.section {
+  width: 100%;
+  padding: $space-12 0;
+}
+
+.section--top-spaced {
+  margin-top: 10vh;
+}
+
+.section--hero {
+  padding-bottom: $space-24;
+  margin-bottom: $space-20;
+}

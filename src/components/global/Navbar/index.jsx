@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import styles from './styles.module.scss';
 
 export default function Navbar({ data }) {
   if (!data) return null;
@@ -22,9 +23,9 @@ export default function Navbar({ data }) {
   }, [isOpen]);
 
   return (
-    <nav className="container flex justify-between items-center p-6">
+    <nav className={`container ${styles.navbar}`}>
       {data.logo?.url && (
-        <Link href="/">
+        <Link href="/" className={styles.navbar__logo}>
           <Image
             src={
               data.logo.url.startsWith("http")
@@ -32,73 +33,66 @@ export default function Navbar({ data }) {
                 : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${data.logo.url.replace(/^\/+/, "")}`
             }
             alt={data.logo.alternativeText || "Logo"}
-            width={200}
-            height={200}
-            style={{ cursor: "pointer" }}
+            width={150}
+            height={100}
           />
         </Link>
       )}
-      <div className="hidden md:flex flex-row gap-4 pb-4 border-b border-[#04c4f3] w-full md:w-auto">
-        <ul className="flex space-x-4 items-center">
+
+      {/* Desktop link row */}
+      <div className={styles.navbar__linksRow}>
+        <ul className={styles.navbar__linksList}>
           {Array.isArray(data.links) &&
             data.links.map((link, index) => (
-              <li key={index} className="flex items-center">
+              <li key={index} className={styles.navbar__linkItem}>
                 {link?.url && link?.text && (
-                  <Link
-                    href={link.url}
-                    className="text-[#04c4f3] text-2xl hover:underline mr-5"
-                  >
+                  <Link href={link.url} className={styles.navbar__link}>
                     {link.text}
                   </Link>
                 )}
                 {index < data.links.length - 1 && (
-                  <span className="mx-2 text-[#04c4f3]">/</span>
+                  <span className={styles.navbar__divider}>/</span>
                 )}
               </li>
             ))}
         </ul>
+
+        {/* Hamburger — desktop */}
         <button
-        className="hidden md:block text-[#04c4f3] text-4xl cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        &#9776;
-      </button>
+          className={styles.navbar__hamburgerDesktop}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          &#9776;
+        </button>
       </div>
 
-      {/* Hamburger menu button for desktop */}
-      
-      {/* Hamburger menu button for mobile */}
+      {/* Hamburger — mobile */}
       <button
-        className="block md:hidden text-[#04c4f3] text-4xl mr-5 cursor-pointer"
+        className={styles.navbar__hamburgerMobile}
         onClick={() => setIsOpen(!isOpen)}
       >
         &#9776;
       </button>
 
-      {/* Side menu for both desktop and mobile */}
+      {/* Side drawer */}
       <div
         ref={menuRef}
-        className={`
-          fixed top-0 right-0 h-full w-[70vw] max-w-xs bg-gray-800 p-4 rounded-l-lg shadow-lg 
-          transition-transform duration-300 ease-in-out
-          z-50
-          ${isOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'}
-        `}
+        className={`${styles.sideMenu} ${isOpen ? styles['sideMenu--open'] : styles['sideMenu--closed']}`}
       >
         <button
-          className="absolute top-2 right-2 text-[#04c4f3] text-6xl"
+          className={styles.sideMenu__close}
           onClick={() => setIsOpen(false)}
         >
           &times;
         </button>
-        <ul className="flex flex-col gap-5 space-y-4 mt-20">
+        <ul className={styles.sideMenu__list}>
           {Array.isArray(data.hamburgerLinks)
             ? data.hamburgerLinks.map((link, index) => (
                 <li key={index}>
                   {link?.url && link?.text && (
                     <Link
                       href={link.url}
-                      className="text-[#04c4f3] text-2xl hover:underline"
+                      className={styles.sideMenu__link}
                       onClick={() => setIsOpen(false)}
                     >
                       {link.text}

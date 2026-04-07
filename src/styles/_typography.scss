@@ -1,0 +1,172 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================================
+// TYPOGRAPHY — global base rules
+// ============================================================
+
+// Import Bebas Neue from Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+// Heading defaults
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Bebas Neue", sans-serif;
+  margin: 0;
+}
+
+h1 {
+  font-size: 6rem;
+
+  @include respond-to(md) {
+    font-size: 4rem;
+  }
+}
+
+h2 {
+  font-size: 2.5rem;
+
+  @include respond-to(md) {
+    font-size: 2rem;
+  }
+}
+
+h3 {
+  font-size: 2.4rem;
+
+  @include respond-to(md) {
+    font-size: 1.8rem;
+  }
+}
+
+h4 {
+  font-size: 2.2rem;
+
+  @include respond-to(md) {
+    font-size: 1.6rem;
+  }
+}
+
+h5 {
+  font-size: 1.25rem;
+
+  @include respond-to(md) {
+    font-size: 1.2rem;
+  }
+}
+
+h6 {
+  font-size: 1rem;
+
+  @include respond-to(md) {
+    font-size: 0.9rem;
+  }
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin: 0;
+
+  @include respond-to(md) {
+    font-size: 1rem;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// ============================================================
+// CKEditor 5 Content Styles
+// ============================================================
+.ck-content {
+  .image {
+    display: table;
+    clear: both;
+    text-align: center;
+    margin: 1em auto;
+  }
+
+  .image img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    min-width: 50px;
+  }
+
+  .image-style-side {
+    float: right;
+    margin-left: 1.5em;
+    max-width: 50%;
+  }
+
+  .image-style-align-left  { float: left;  margin-right: 1.5em; }
+  .image-style-align-center { margin: 0 auto; }
+  .image-style-align-right  { float: right; margin-left: 1.5em; }
+
+  .text-align-left    { text-align: left; }
+  .text-align-right   { text-align: right; }
+  .text-align-center  { text-align: center; }
+  .text-align-justify { text-align: justify; }
+
+  h1 {
+    font-size: 3rem !important;
+    line-height: 2.5rem !important;
+    font-weight: 800 !important;
+    margin-top: 2em !important;
+    margin-bottom: 1em !important;
+  }
+
+  h2 {
+    font-size: 2.5rem !important;
+    line-height: 2.25rem !important;
+    font-weight: 700 !important;
+    margin-top: 2em !important;
+    margin-bottom: 1em !important;
+  }
+
+  h3 {
+    font-size: 2rem !important;
+    line-height: 2rem !important;
+    font-weight: 600 !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 0.75em !important;
+  }
+
+  h4 {
+    font-size: 1.5rem !important;
+    line-height: 1.75rem !important;
+    font-weight: 600 !important;
+    margin-top: 1.5em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  h5 {
+    font-size: 1.25rem !important;
+    line-height: 1.5rem !important;
+    font-weight: 600 !important;
+    margin-top: 1.25em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  h6 {
+    font-size: 1.125rem !important;
+    line-height: 1.5rem !important;
+    font-weight: 600 !important;
+    margin-top: 1.25em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  // Force inner spans to inherit header styles
+  h1 span, h2 span, h3 span,
+  h4 span, h5 span, h6 span {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    font-weight: inherit !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    &.text-align-center { text-align: center; }
+  }
+}

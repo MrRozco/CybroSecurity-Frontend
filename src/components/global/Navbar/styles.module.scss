@@ -1,0 +1,200 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// NAVBAR — scoped styles
+// ============================================================
+
+.navbar {
+  @include flex-between;
+  padding: $space-12;
+
+  // Logo link
+  &__logo {
+    display: block;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  // Desktop link row
+  &__linksRow {
+    display: none;
+    flex-direction: row;
+    gap: $space-4;
+    padding-bottom: $space-4;
+    border-bottom: 1px solid $color-primary;
+    width: auto;
+
+    @include respond-above(md) {
+      display: flex;
+    }
+  }
+
+  &__linksList {
+    display: flex;
+    align-items: center;
+    gap: $space-4;
+  }
+
+  &__linkItem {
+    display: flex;
+    align-items: center;
+  }
+
+  // Nav link (applies wave animation from global animations)
+  &__link {
+    color: $color-primary;
+    font-size: 1.5rem; // text-2xl
+    margin-right: $space-5;
+    position: relative;
+    display: inline-block;
+    transition: color $transition-slow;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, $color-accent, $color-primary, $color-accent-purple, $color-accent);
+      background-size: 200% 100%;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform $transition-slow;
+    }
+
+    &:hover {
+      color: transparent;
+      background-image: linear-gradient(90deg, $color-accent, $color-primary, $color-accent-purple, $color-accent);
+      background-size: 200% 100%;
+      background-position: 0% 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: nav-wave 1.2s ease forwards;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+      animation: nav-wave 1.2s ease forwards;
+    }
+  }
+
+  &__divider {
+    color: $color-primary;
+    margin: 0 $space-2;
+  }
+
+  // Hamburger toggle — desktop
+  &__hamburgerDesktop {
+    display: none;
+    color: $color-primary;
+    font-size: 2.25rem; // text-4xl
+    cursor: pointer;
+    background: none;
+    border: none;
+
+    @include respond-above(md) {
+      display: block;
+    }
+  }
+
+  // Hamburger toggle — mobile
+  &__hamburgerMobile {
+    display: block;
+    color: $color-primary;
+    font-size: 2.25rem;
+    margin-right: $space-5;
+    cursor: pointer;
+    background: none;
+    border: none;
+
+    @include respond-above(md) {
+      display: none;
+    }
+  }
+}
+
+// ============================================================
+// SIDE DRAWER
+// ============================================================
+.sideMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 70vw;
+  max-width: 320px;
+  background-color: #1f2937; // gray-800
+  padding: $space-4;
+  border-radius: 0.5rem 0 0 0.5rem;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+  z-index: $z-overlay;
+  transition: transform 0.3s ease-in-out;
+
+  &--open {
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  &--closed {
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+
+  &__close {
+    position: absolute;
+    top: $space-2;
+    right: $space-2;
+    color: $color-primary;
+    font-size: 3.75rem; // text-6xl
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-5;
+    margin-top: $space-20;
+  }
+
+  &__link {
+    color: $color-primary;
+    font-size: 1.5rem;
+    position: relative;
+    display: inline-block;
+    transition: color $transition-slow;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, $color-accent, $color-primary, $color-accent-purple, $color-accent);
+      background-size: 200% 100%;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform $transition-slow;
+    }
+
+    &:hover {
+      color: transparent;
+      background-image: linear-gradient(90deg, $color-accent, $color-primary, $color-accent-purple, $color-accent);
+      background-size: 200% 100%;
+      background-position: 0% 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: nav-wave 1.2s ease forwards;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+      animation: nav-wave 1.2s ease forwards;
+    }
+  }
+}

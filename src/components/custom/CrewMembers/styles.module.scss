@@ -1,0 +1,61 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// CREW MEMBERS — grid of employee cards
+// ============================================================
+
+.crewMembers {
+  padding: $space-4;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-8;
+
+  @media screen and (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-above(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.memberCard {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-bg-card;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: $color-text;
+  padding: $space-4;
+  @include transition(transform);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.memberCard__photo {
+  border-radius: 0.25rem;
+  object-fit: cover;
+  margin-bottom: $space-5;
+}
+
+.memberCard__name {
+  font-size: 1.5rem !important;
+  font-weight: bold;
+}
+
+.memberCard__title {
+  font-size: 1rem;
+  color: $color-text-muted;
+  margin-top: $space-1;
+}
+
+.memberCard__bio {
+  margin-top: $space-2;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: sans-serif;
+}

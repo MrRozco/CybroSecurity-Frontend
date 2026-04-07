@@ -1,0 +1,27 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================================
+// CONTAINER — max-width centred wrapper
+// ============================================================
+.container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 0 $container-padding;
+
+  @include respond-to(md) {
+    padding: 0 10px;
+  }
+
+  @include respond-to(sm) {
+    padding: 0 5px;
+  }
+
+  @include respond-to(xs) {
+    padding: 0 2px;
+  }
+
+  @media screen and (max-width: 240px) {
+    padding: 0 1px;
+  }
+}

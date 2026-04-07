@@ -1,0 +1,8 @@
+// ============================================================
+// GLOBAL APP STYLES
+// This file is imported once in layout.js (replaces globals.css)
+// All base tokens, typography, layout and animation rules live
+// in src/styles/ and are loaded via the index barrel.
+// ============================================================
+
+@use '../styles/index' as *;

@@ -4,7 +4,7 @@ import { getSingleType } from '@/lib/strapi';
 export default async function CategoryLayout({ children }) {
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container">
       <main>
         {children}
       </main>

@@ -1,0 +1,43 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// BLOG POST PAGE
+// ============================================================
+
+.blogPost {
+  padding: $space-4;
+}
+
+.blogPost__image {
+  border-radius: 0.5rem;
+  object-fit: cover;
+  margin-bottom: $space-4;
+}
+
+.blogPost__title {
+  font-size: 1.875rem !important;
+  font-weight: bold;
+  margin-bottom: $space-2;
+}
+
+.blogPost__meta {
+  color: $color-text-muted;
+  margin-bottom: $space-4;
+  font-size: 1rem;
+  font-family: sans-serif;
+}
+
+.blogPost__category {
+  margin-top: $space-4;
+  font-size: 1.5rem;
+  font-family: sans-serif;
+
+  a {
+    color: $color-primary;
+    margin-right: $space-2;
+    @include transition(color);
+
+    &:hover { color: darken($color-primary, 10%); }
+  }
+}

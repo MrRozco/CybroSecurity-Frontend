@@ -1,0 +1,33 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// BLOG CONTENT — rich-text / CKEditor rendered HTML
+// ============================================================
+
+.blogContent {
+  font-family: sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.75;
+  color: $color-text;
+  margin-bottom: $space-6;
+
+  // Invert / dark-mode prose adjustments
+  p    { color: $color-text; }
+  a    { color: $color-primary; text-decoration: underline; }
+  code { background: $color-bg-card; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+  pre  { background: $color-bg-card; padding: $space-4; border-radius: 0.5rem; overflow-x: auto; }
+
+  blockquote {
+    border-left: 4px solid $color-primary;
+    padding-left: $space-4;
+    color: $color-text-muted;
+    margin: $space-6 0;
+    font-style: italic;
+  }
+
+  img {
+    border-radius: 0.5rem;
+    max-width: 100%;
+  }
+}

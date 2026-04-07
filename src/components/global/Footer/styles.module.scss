@@ -1,0 +1,111 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// FOOTER — scoped styles
+// ============================================================
+
+.footer {
+  width: 100%;
+  height: 30vh;
+  margin-top: 10vh;
+  padding: 0 $space-4;
+  color: $color-text;
+  text-align: center;
+
+  @include flex-col;
+  justify-content: center;
+  align-items: center;
+
+  // Top row: logo + social icons
+  &__top {
+    width: 100%;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $container-padding;
+    @include flex-between;
+    align-items: center;
+
+    @include respond-to(md) {
+      padding: 0 10px;
+    }
+  }
+
+  &__logoLink {
+    display: block;
+  }
+
+  &__logoImage {
+    border-radius: 0.25rem;
+    object-fit: cover;
+  }
+
+  &__socialList {
+    @include flex-center;
+    gap: $space-4;
+    flex-wrap: wrap;
+    margin-top: $space-4;
+    margin-bottom: $space-2;
+  }
+
+  &__socialItem a {
+    display: block;
+    @include transition(opacity);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__socialImage {
+    border-radius: 0.25rem;
+    object-fit: cover;
+  }
+
+  // Bottom row: nav links + copyright
+  &__bottom {
+    width: 100%;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $container-padding;
+
+    @include respond-to(md) {
+      padding: 0 10px;
+    }
+  }
+
+  &__linksList {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: $space-4;
+    flex-wrap: wrap;
+    margin: $space-4 0 $space-4;
+    font-size: 1.5rem; // text-2xl
+  }
+
+  &__linkItem {
+    display: flex;
+    align-items: center;
+
+    a {
+      margin-right: $space-4;
+      color: $color-text;
+      @include transition(color);
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+
+  &__divider {
+    color: $color-primary;
+  }
+
+  &__copyright {
+    font-size: 1rem;
+    color: $color-text-muted;
+    margin-bottom: $space-4;
+  }
+}

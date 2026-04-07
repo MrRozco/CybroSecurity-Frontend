@@ -17,7 +17,7 @@ export default async function Crew() {
 
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container">
       <PageRenderer page={crew} />
     </div>
   );

@@ -2,7 +2,7 @@ import { Geist, Geist_Mono, Bebas_Neue } from "next/font/google";
 import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
 import { getSingleType } from '@/lib/strapi';
-import "./globals.css";
+import "./globals.scss";
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
@@ -40,7 +40,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${bebasNeue.variable} antialiased`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} ${bebasNeue.variable}`}>
         {navbar && <Navbar data={navbar} />}
         {children}
         {footer && <Footer data={footer} />}

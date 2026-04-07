@@ -15,7 +15,7 @@ export default async function BlogsLayout({ children }) {
 
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container">
       <main>
         {children}
       </main>
