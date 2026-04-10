@@ -1,10 +1,22 @@
 import qs from 'qs';
 
-const rawStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://miraculous-agreement-441a168338.strapiapp.com';
+const FALLBACK_STRAPI_URL = 'https://miraculous-agreement-441a168338.strapiapp.com';
+const rawStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || FALLBACK_STRAPI_URL;
 const normalizedStrapiUrl = rawStrapiUrl.replace(/\/+$/, '');
+
+export const STRAPI_ORIGIN = normalizedStrapiUrl.endsWith('/api')
+  ? normalizedStrapiUrl.replace(/\/api$/, '')
+  : normalizedStrapiUrl;
+
 const strapiApiBaseUrl = normalizedStrapiUrl.endsWith('/api')
   ? normalizedStrapiUrl
   : `${normalizedStrapiUrl}/api`;
+
+export function getStrapiMediaUrl(mediaUrl) {
+  if (!mediaUrl || typeof mediaUrl !== 'string') return '';
+  if (mediaUrl.startsWith('http://') || mediaUrl.startsWith('https://')) return mediaUrl;
+  return `${STRAPI_ORIGIN}/${mediaUrl.replace(/^\/+/, '')}`;
+}
 
 // Generic fetcher for any endpoint with Next.js caching
 export async function fetchFromStrapi(endpoint, query = {}, options = {}) {

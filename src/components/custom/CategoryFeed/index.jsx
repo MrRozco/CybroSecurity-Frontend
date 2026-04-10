@@ -1,12 +1,10 @@
-import { getCategories } from "@/lib/strapi";
+import { getCategories, STRAPI_ORIGIN, getStrapiMediaUrl } from "@/lib/strapi";
 import Link from 'next/link';
 import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
 import styles from './styles.module.scss';
 
 export default async function CategoryFeed(data) {
-  const strapiBaseUrl = (process.env.NEXT_PUBLIC_STRAPI_API_URL || '').replace(/\/+$/, '');
-
   const { category, topBlogs, topTitle } = data.data;
   const categories = await getCategories();
   const feedCategory = categories.find((cat) => cat.Slug === category.Slug);
@@ -14,10 +12,16 @@ export default async function CategoryFeed(data) {
   if (!feedCategory) return <div>Category not found</div>;
 
   const response = await fetch(
-    `${strapiBaseUrl}/api/blogs?filters[category][Slug][$eq]=${feedCategory.Slug}`
+    `${STRAPI_ORIGIN}/api/blogs?filters[category][Slug][$eq]=${feedCategory.Slug}`,
+    { next: { revalidate: 3600 } }
   );
 
-  const categoryBlogs = (await response.json()).data;
+  if (!response.ok) {
+    return <div>Unable to load category posts</div>;
+  }
+
+  const parsed = await response.json();
+  const categoryBlogs = parsed?.data;
   if (!categoryBlogs || categoryBlogs.length === 0) return <div>No blogs found in this category</div>;
 
   const [firstBlog, ...otherBlogs] = categoryBlogs;
@@ -35,11 +39,7 @@ export default async function CategoryFeed(data) {
               <div className={styles.categoryFeed__featuredImageWrap}>
                 <div className={styles.categoryFeed__overlay} />
                 <Image
-                  src={
-                    firstBlog.FeaturedImage.url.startsWith("http")
-                      ? firstBlog.FeaturedImage.url
-                      : `${strapiBaseUrl}/${firstBlog.FeaturedImage.url.replace(/^\/+/, "")}`
-                  }
+                  src={getStrapiMediaUrl(firstBlog.FeaturedImage.url)}
                   alt={firstBlog.FeaturedImage.alternativeText || firstBlog.Title}
                   width={899}
                   height={699}
@@ -68,11 +68,7 @@ export default async function CategoryFeed(data) {
                   </div>
                   {blog.FeaturedImage && (
                     <Image
-                      src={
-                        blog.FeaturedImage.url.startsWith("http")
-                          ? blog.FeaturedImage.url
-                          : `${strapiBaseUrl}/${blog.FeaturedImage.url.replace(/^\/+/, "")}`
-                      }
+                      src={getStrapiMediaUrl(blog.FeaturedImage.url)}
                       alt={blog.Title}
                       width={150}
                       height={150}

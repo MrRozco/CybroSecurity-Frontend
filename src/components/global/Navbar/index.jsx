@@ -2,12 +2,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
+import { getStrapiMediaUrl } from '@/lib/strapi';
 import styles from './styles.module.scss';
 
 export default function Navbar({ data }) {
   if (!data) return null;
-
-  const strapiBaseUrl = (process.env.NEXT_PUBLIC_STRAPI_API_URL || '').replace(/\/+$/, '');
 
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
@@ -29,11 +28,7 @@ export default function Navbar({ data }) {
       {data.logo?.url && (
         <Link href="/" className={styles.navbar__logo}>
           <Image
-            src={
-              data.logo.url.startsWith("http")
-                ? data.logo.url
-                : `${strapiBaseUrl}/${data.logo.url.replace(/^\/+/, "")}`
-            }
+            src={getStrapiMediaUrl(data.logo.url)}
             alt={data.logo.alternativeText || "Logo"}
             width={150}
             height={100}

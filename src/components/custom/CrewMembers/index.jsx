@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getStrapiMediaUrl } from "@/lib/strapi";
 import styles from './styles.module.scss';
 
 const CrewMembers = ({ data }) => {
@@ -10,11 +11,7 @@ const CrewMembers = ({ data }) => {
         employee.map((member, i) => (
           <div key={i} className={styles.memberCard}>
             <Image
-              src={
-                member.profile.url.startsWith("http")
-                  ? member.profile.url
-                  : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${member.profile.url.replace(/^\/+/, "")}`
-              }
+              src={getStrapiMediaUrl(member.profile.url)}
               alt={member.profile.alternativeText || member.name}
               width={400}
               height={400}

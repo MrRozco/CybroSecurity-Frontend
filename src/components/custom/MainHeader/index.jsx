@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "@mui/material/Skeleton";
 import React from "react";
+import { getStrapiMediaUrl } from "@/lib/strapi";
 import styles from "./styles.module.scss";
 
 export default function MainHeader({ data }) {
@@ -20,11 +21,7 @@ export default function MainHeader({ data }) {
               <div style={{ position: "relative" }}>
                 <div className={styles.mainHeader__overlay} />
                 <Image
-                  src={
-                    firstBlog.FeaturedImage.url.startsWith("http")
-                      ? firstBlog.FeaturedImage.url
-                      : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${firstBlog.FeaturedImage.url.replace(/^\/+/, "")}`
-                  }
+                  src={getStrapiMediaUrl(firstBlog.FeaturedImage.url)}
                   alt={firstBlog.FeaturedImage.alternativeText || firstBlog.Title}
                   width={900}
                   height={700}
@@ -85,11 +82,7 @@ export default function MainHeader({ data }) {
                 </div>
                 <div className={styles.mainHeader__storyThumb}>
                   <Image
-                    src={
-                      blog.FeaturedImage.url.startsWith("http")
-                        ? blog.FeaturedImage.url
-                        : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${blog.FeaturedImage.url.replace(/^\/+/, "")}`
-                    }
+                    src={getStrapiMediaUrl(blog.FeaturedImage.url)}
                     alt={blog.FeaturedImage.alternativeText || blog.Title}
                     width={200}
                     height={112}

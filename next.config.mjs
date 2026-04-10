@@ -16,6 +16,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'miraculous-agreement-441a168338.strapiapp.com',
+        port: '',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'miraculous-agreement-441a168338.media.strapiapp.com',
         port: '',
         pathname: '/**',

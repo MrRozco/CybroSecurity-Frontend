@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getStrapiMediaUrl } from '@/lib/strapi';
 import styles from './styles.module.scss';
 
 const Footer = ({ data }) => {
@@ -13,11 +14,7 @@ const Footer = ({ data }) => {
         <div className={styles.footer__logoLink}>
           <Link href="/">
             <Image
-              src={
-                logo.url.startsWith("http")
-                  ? logo.url
-                  : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${logo.url.replace(/^\/+/, "")}`
-              }
+              src={getStrapiMediaUrl(logo.url)}
               alt={logo.alternativeText || "CybroSecurity Logo"}
               width={300}
               height={150}
@@ -33,11 +30,7 @@ const Footer = ({ data }) => {
                 <li key={i} className={styles.footer__socialItem}>
                   <a href={social.mediaLink} target="_blank" rel="noopener noreferrer">
                     <Image
-                      src={
-                        social.mediaLogo.url.startsWith("http")
-                          ? social.mediaLogo.url
-                          : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${social.mediaLogo.url.replace(/^\/+/, "")}`
-                      }
+                      src={getStrapiMediaUrl(social.mediaLogo.url)}
                       alt={social.mediaLogo.name || "Social Media"}
                       width={40}
                       height={40}
