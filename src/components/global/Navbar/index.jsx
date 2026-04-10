@@ -7,6 +7,8 @@ import styles from './styles.module.scss';
 export default function Navbar({ data }) {
   if (!data) return null;
 
+  const strapiBaseUrl = (process.env.NEXT_PUBLIC_STRAPI_API_URL || '').replace(/\/+$/, '');
+
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -30,7 +32,7 @@ export default function Navbar({ data }) {
             src={
               data.logo.url.startsWith("http")
                 ? data.logo.url
-                : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${data.logo.url.replace(/^\/+/, "")}`
+                : `${strapiBaseUrl}/${data.logo.url.replace(/^\/+/, "")}`
             }
             alt={data.logo.alternativeText || "Logo"}
             width={150}

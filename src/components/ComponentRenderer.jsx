@@ -3,12 +3,14 @@ import Navbar from "./global/Navbar";
 import CategoryFeed from "./custom/CategoryFeed";
 import CrewHeader from "./custom/CrewHeader";
 import CrewMembers from "./custom/CrewMembers";
+import SocialMediaSection from "./custom/socialMediaSection";
 
 const componentMap = {
   "structure.main-header": MainHeader,
   "structure.category-feed": CategoryFeed,
   "structure.crew-header": CrewHeader,
   "structure.crew-members": CrewMembers,
+  "structure.social-media-section": SocialMediaSection,
   // Add other component mappings here
 };
 

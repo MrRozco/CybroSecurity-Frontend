@@ -33,10 +33,9 @@ export default async function RootLayout({ children }) {
 
   const homepage = await getSingleType('homepage');
 
-  console.log('Homepage data in layout:', homepage);
-  
-  const navbar = homepage.content[0]?.__component === 'structure.navbar' ? homepage.content[0] : null;
-  const footer = homepage.content[homepage.content.length - 1]?.__component === 'structure.footer' ? homepage.content[homepage.content.length - 1] : null;
+  const content = Array.isArray(homepage?.content) ? homepage.content : [];
+  const navbar = content.find((item) => item?.__component === 'structure.navbar') || null;
+  const footer = content.find((item) => item?.__component === 'structure.footer') || null;
 
   return (
     <html lang="en">

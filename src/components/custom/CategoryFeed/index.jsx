@@ -5,6 +5,8 @@ import Skeleton from '@mui/material/Skeleton';
 import styles from './styles.module.scss';
 
 export default async function CategoryFeed(data) {
+  const strapiBaseUrl = (process.env.NEXT_PUBLIC_STRAPI_API_URL || '').replace(/\/+$/, '');
+
   const { category, topBlogs, topTitle } = data.data;
   const categories = await getCategories();
   const feedCategory = categories.find((cat) => cat.Slug === category.Slug);
@@ -12,7 +14,7 @@ export default async function CategoryFeed(data) {
   if (!feedCategory) return <div>Category not found</div>;
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/blogs?filters[category][Slug][$eq]=${feedCategory.Slug}&populate=*`
+    `${strapiBaseUrl}/api/blogs?filters[category][Slug][$eq]=${feedCategory.Slug}`
   );
 
   const categoryBlogs = (await response.json()).data;
@@ -36,7 +38,7 @@ export default async function CategoryFeed(data) {
                   src={
                     firstBlog.FeaturedImage.url.startsWith("http")
                       ? firstBlog.FeaturedImage.url
-                      : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/${firstBlog.FeaturedImage.url.replace(/^\/+/, "")}`
+                      : `${strapiBaseUrl}/${firstBlog.FeaturedImage.url.replace(/^\/+/, "")}`
                   }
                   alt={firstBlog.FeaturedImage.alternativeText || firstBlog.Title}
                   width={899}
@@ -69,7 +71,7 @@ export default async function CategoryFeed(data) {
                       src={
                         blog.FeaturedImage.url.startsWith("http")
                           ? blog.FeaturedImage.url
-                          : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${blog.FeaturedImage.url.replace(/^\/+/, "")}`
+                          : `${strapiBaseUrl}/${blog.FeaturedImage.url.replace(/^\/+/, "")}`
                       }
                       alt={blog.Title}
                       width={150}

@@ -8,7 +8,7 @@
 .categoryFeed {
   display: flex;
   flex-direction: column-reverse;
-  margin-top: 10rem; // mt-40
+  margin: 6rem auto; // mt-40
   justify-content: space-around;
 
   @include respond-above(md) {

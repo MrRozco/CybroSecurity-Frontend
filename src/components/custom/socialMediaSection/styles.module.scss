@@ -1,0 +1,400 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// SOCIAL MEDIA EMBED — responsive embed container
+// ============================================================
+
+.socialMediaEmbed {
+  padding: $space-4;
+  margin: $space-8 0;
+  background-color: $color-bg-card;
+  border-radius: 0.75rem;
+  border-left: 4px solid $color-primary;
+  border: 1px solid rgba(25, 207, 249, 0.22);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  width: 90%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  @include transition(background-color, border-color);
+
+  &:hover {
+    border-left-color: $color-accent;
+  }
+
+  // Provider-specific styling
+  &--youtube {
+    border-left-color: #ff0000;
+  }
+
+  &--twitter {
+    border-left-color: #1da1f2;
+  }
+
+  &--facebook {
+    border-left-color: #1877f2;
+  }
+
+  &--reddit {
+    border-left-color: #ff4500;
+  }
+
+  &--instagram {
+    border-left-color: #e4405f;
+  }
+
+  &--tiktok {
+    border-left-color: #25f4ee;
+  }
+
+  &--vimeo {
+    border-left-color: #1ab7ea;
+  }
+
+  &--spotify {
+    border-left-color: #1db954;
+  }
+
+  &--soundcloud {
+    border-left-color: #ff7700;
+  }
+
+  &--generic {
+    border-left-color: $color-border;
+  }
+}
+
+.socialMediaEmbed__text {
+  width: 100%;
+  text-align: left;
+}
+
+.socialMediaEmbed__media {
+  width: 100%;
+}
+
+.socialMediaEmbed--split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.35fr);
+  gap: $space-6;
+  align-items: start;
+}
+
+.socialMediaEmbed--leftStack {
+  width: 58%;
+  max-width: 640px;
+  margin-left: $space-4;
+  margin-right: auto;
+}
+
+.sectionHeader {
+  margin-bottom: $space-4;
+  padding-bottom: $space-3;
+  border-bottom: 1px solid rgba(25, 207, 249, 0.2);
+}
+
+.sectionTitle {
+  margin: 0;
+  color: $color-primary;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.sectionSummary {
+  margin: $space-2 0 0;
+  color: $color-text-muted;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  text-align: left;
+}
+
+// ===== Title & metadata =====
+.embedTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: $color-text;
+  margin: 0 0 $space-2 0;
+  line-height: 1.35;
+  text-align: left;
+
+  @include respond-above(md) {
+    font-size: 1.4rem;
+  }
+}
+
+.embedAuthor {
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  margin: 0 0 $space-4 0;
+  text-align: left;
+
+  a {
+    color: $color-primary;
+    text-decoration: none;
+    @include transition(color);
+
+    &:hover {
+      color: $color-accent;
+      text-decoration: underline;
+    }
+  }
+}
+
+.embedDescription {
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  margin: $space-4 0 0 0;
+  line-height: 1.6;
+}
+
+// ===== Embed wrapper =====
+.embedWrapper {
+  margin: $space-4 0 0 0;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.socialMediaEmbed--nonYoutube {
+  padding: $space-3;
+  margin: $space-6 0;
+  margin-left: $space-16;
+}
+
+.socialMediaEmbed--nonYoutube .sectionHeader {
+  margin-bottom: $space-3;
+  padding-bottom: $space-2;
+}
+
+.socialMediaEmbed--nonYoutube .sectionSummary {
+  line-height: 1.45;
+}
+
+.socialMediaEmbed--nonYoutube .embedTitle {
+  margin-bottom: $space-1;
+}
+
+.socialMediaEmbed--nonYoutube .embedAuthor {
+  margin-bottom: $space-2;
+}
+
+.socialMediaEmbed--nonYoutube .embedWrapper {
+  margin-top: $space-2;
+}
+
+// ===== YouTube =====
+.youtubeContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; // 16:9 aspect ratio
+  height: 0;
+  overflow: hidden;
+
+  .iframeYoutube {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+
+// ===== Twitter/X =====
+.twitterEmbed {
+  margin: 0;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.socialMediaEmbed--nonYoutube .embedWrapper {
+  width: 100%;
+  max-width: 100%;
+  margin-top: $space-1;
+}
+
+.socialMediaEmbed--nonYoutube .sectionTitle {
+  font-size: 1.4rem;
+}
+
+.socialMediaEmbed--nonYoutube .sectionSummary {
+  display: -webkit-box;
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.socialMediaEmbed--nonYoutube .embedWrapper :global(iframe) {
+  border: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.socialMediaEmbed--twitter .embedWrapper :global(.twitter-tweet) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+// ===== Facebook =====
+.iframeFacebook {
+  max-width: 100%;
+  min-height: 380px;
+}
+
+.facebookWrapper {
+  width: 100%;
+  overflow: hidden;
+
+  :global(iframe) {
+    max-width: 100% !important;
+    width: 100% !important;
+    border: none !important;
+  }
+}
+
+// ===== Reddit =====
+.iframeReddit {
+  max-width: 100%;
+  min-height: 320px;
+}
+
+// ===== Instagram =====
+.iframeInstagram {
+  max-width: 100%;
+  min-height: 420px;
+}
+
+.socialMediaEmbed--instagram .embedWrapper :global(.instagram-media) {
+  max-width: 100% !important;
+  border-radius: 0.5rem !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+// ===== TikTok =====
+.socialMediaEmbed--tiktok .embedWrapper :global(.tiktok-embed) {
+  max-width: 100% !important;
+  min-width: 325px;
+  margin: 0 !important;
+}
+
+// ===== Vimeo =====
+.vimeoContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; // 16:9 aspect ratio
+  height: 0;
+  overflow: hidden;
+
+  .iframeVimeo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+
+// ===== Spotify =====
+.iframeSpotify {
+  max-width: 100%;
+  min-height: 260px;
+}
+
+// ===== Soundcloud =====
+.iframeSoundcloud {
+  max-width: 100%;
+  min-height: 190px;
+}
+
+// ===== Generic (fallback) =====
+.genericEmbedLink {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  @include transition(transform);
+  text-decoration: none;
+
+  &:hover {
+    transform: scale(1.02);
+
+    .embedOverlay {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+}
+
+.thumbnailImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border-radius: 0.5rem;
+}
+
+.embedOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: $space-4;
+  color: white;
+  @include transition(background-color);
+
+  p {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+}
+
+// ===== Responsive adjustments =====
+@include respond-to(md) {
+  .socialMediaEmbed {
+    width: 100%;
+  }
+
+  .socialMediaEmbed--leftStack {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .socialMediaEmbed--split {
+    grid-template-columns: 1fr;
+    gap: $space-4;
+  }
+}
+
+@include respond-to(sm) {
+  .socialMediaEmbed {
+    padding: $space-3;
+    margin: $space-6 0;
+  }
+
+  .embedTitle {
+    font-size: 1.1rem;
+  }
+
+  .youtubeContainer,
+  .vimeoContainer {
+    padding-bottom: 56.25%;
+  }
+
+  .iframeFacebook {
+    min-height: 340px;
+  }
+
+  .iframeInstagram {
+    min-height: 360px;
+  }
+}

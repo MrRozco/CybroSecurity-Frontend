@@ -1,11 +1,16 @@
 import qs from 'qs';
 
-const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://miraculous-agreement-441a168338.strapiapp.com';
+const rawStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'https://miraculous-agreement-441a168338.strapiapp.com';
+const normalizedStrapiUrl = rawStrapiUrl.replace(/\/+$/, '');
+const strapiApiBaseUrl = normalizedStrapiUrl.endsWith('/api')
+  ? normalizedStrapiUrl
+  : `${normalizedStrapiUrl}/api`;
 
 // Generic fetcher for any endpoint with Next.js caching
 export async function fetchFromStrapi(endpoint, query = {}, options = {}) {
   const queryString = qs.stringify(query, { encodeValuesOnly: true });
-  const url = `${strapiUrl}/api/${endpoint}${queryString ? `?${queryString}` : ''}`;
+  const normalizedEndpoint = endpoint.replace(/^\/+/, '');
+  const url = `${strapiApiBaseUrl}/${normalizedEndpoint}${queryString ? `?${queryString}` : ''}`;
   
   try {
     const response = await fetch(url, {
@@ -32,14 +37,13 @@ export async function fetchFromStrapi(endpoint, query = {}, options = {}) {
 
 // Get all blogs
 export async function getBlogs() {
-  return fetchFromStrapi('blogs', { populate: '*' });
+  return fetchFromStrapi('blogs');
 }
 
 // Get a blog by slug
 export async function getBlogBySlug(slug) {
   const blogs = await fetchFromStrapi('blogs', {
     filters: { Slug: { $eq: slug } },
-    populate: '*',
   });
   if (!blogs || blogs.length === 0) {
     throw new Error('Blog not found');
@@ -49,66 +53,19 @@ export async function getBlogBySlug(slug) {
 
 // Get all categories
 export async function getCategories() {
-  return fetchFromStrapi('categories', { populate: '*' });
+  return fetchFromStrapi('categories');
 }
 
 export async function getBlogsByCategory(categorySlug) {
   const blogs = await fetchFromStrapi('blogs', {
     filters: { category: { Slug: { $eq: categorySlug } } },
-    populate: '*',
   });
   return blogs || [];
 }
 
 // Get a single type or page (example: homepage, about, etc.)
 export async function getSingleType(type) {
-  return fetchFromStrapi(type, {
-    populate: {
-      content: {
-        on: {
-          'structure.navbar': {
-            populate: '*'
-          }
-          ,
-          'structure.main-header': {
-            populate: {
-              blogs: {
-                populate: '*'
-              },
-            },
-          },
-          'structure.category-feed': {
-            populate: '*'
-          },
-          'structure.footer': {
-            populate: {
-              socialMedias: {
-                populate: '*'
-              },
-              links: {
-                populate: '*'
-              },
-              logo: {
-                populate: '*' 
-              },
-            }
-          },
-          'structure.crew-header': {
-            populate: '*'
-          },
-          'structure.crew-members': {
-            populate: {
-              employee: {
-                populate: '*'
-              }
-            }
-          }
-          
-          // Add more component populates as needed
-        },
-      },
-    },
-  });
+  return fetchFromStrapi(type);
 }
 
 // Get a page by slug (for collection type "pages")
