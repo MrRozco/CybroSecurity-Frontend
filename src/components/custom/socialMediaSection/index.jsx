@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import styles from './styles.module.scss';
 
@@ -11,6 +11,8 @@ export default function SocialMediaEmbed({ data }) {
   const twitterContainerRef = useRef(null);
   const tiktokContainerRef = useRef(null);
   const instagramContainerRef = useRef(null);
+  const redditContainerRef = useRef(null);
+  const [hasMounted, setHasMounted] = useState(false);
 
   // Detect provider from URL or oembed
   const provider = useMemo(() => {
@@ -33,6 +35,10 @@ export default function SocialMediaEmbed({ data }) {
   const isYoutubeLayout = provider === 'youtube';
   const isNonYoutube = provider !== 'youtube';
   const isLeftStackLayout = provider !== 'youtube';
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     if (provider !== 'twitter') return;
@@ -104,6 +110,30 @@ export default function SocialMediaEmbed({ data }) {
     document.body.appendChild(script);
   }, [provider]);
 
+  useEffect(() => {
+    if (provider !== 'reddit' || !oembed?.html) return;
+
+    const processReddit = () => {
+      if (window?.reddit?.init) {
+        window.reddit.init();
+      }
+    };
+
+    const existingScript = document.getElementById('reddit-embed-js');
+    if (existingScript) {
+      existingScript.addEventListener('load', processReddit, { once: true });
+      processReddit();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.id = 'reddit-embed-js';
+    script.src = 'https://embed.redditmedia.com/widgets/platform.js';
+    script.async = true;
+    script.onload = processReddit;
+    document.body.appendChild(script);
+  }, [provider, oembed?.html, url]);
+
   // Extract video ID from YouTube URL for custom embed
   const getYouTubeId = (youtubeUrl) => {
     const match =
@@ -121,6 +151,13 @@ export default function SocialMediaEmbed({ data }) {
     const match = tiktokUrl.match(/video\/(\d+)/);
     return match ? match[1] : '';
   };
+
+  const getNumericHeight = (value) => {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) && parsed > 0 ? Math.round(parsed) : null;
+  };
+
+  const getEmbedHeight = (fallbackHeight) => getNumericHeight(oembed?.height) || fallbackHeight;
 
   const renderEmbed = () => {
     switch (provider) {
@@ -175,7 +212,7 @@ export default function SocialMediaEmbed({ data }) {
             <iframe
               src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(url)}&width=500&show_text=true`}
               width="100%"
-              height="500"
+              height={getEmbedHeight(380)}
               style={{ border: 'none', overflow: 'hidden' }}
               scrolling="no"
               frameBorder="0"
@@ -187,6 +224,16 @@ export default function SocialMediaEmbed({ data }) {
         );
 
       case 'reddit':
+        if (oembed?.html && hasMounted) {
+          return (
+            <div
+              ref={redditContainerRef}
+              className={`${styles.embedWrapper} ${styles.redditWrapper}`}
+              dangerouslySetInnerHTML={{ __html: oembed.html }}
+            />
+          );
+        }
+
         {
         let redditEmbedUrl = url;
         try {
@@ -200,7 +247,7 @@ export default function SocialMediaEmbed({ data }) {
           <div className={styles.embedWrapper}>
             <iframe
               src={redditEmbedUrl}
-              height="360"
+              height={hasMounted ? getEmbedHeight(240) : 240}
               width="100%"
               style={{
                 border: 'none',
@@ -277,7 +324,7 @@ export default function SocialMediaEmbed({ data }) {
               }}
               src={`https://open.spotify.com/embed/${url.split('spotify.com/')[1]}`}
               width="100%"
-              height="300"
+              height={getEmbedHeight(352)}
               frameBorder="0"
               allowFullScreen=""
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -292,7 +339,7 @@ export default function SocialMediaEmbed({ data }) {
           <div className={styles.embedWrapper}>
             <iframe
               width="100%"
-              height="220"
+              height={getEmbedHeight(220)}
               scrolling="no"
               frameBorder="no"
               allow="autoplay"

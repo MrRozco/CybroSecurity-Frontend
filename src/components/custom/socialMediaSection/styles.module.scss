@@ -283,7 +283,6 @@
 // ===== Facebook =====
 .iframeFacebook {
   max-width: 100%;
-  height: auto;
 }
 
 .facebookWrapper {
@@ -300,13 +299,26 @@
 // ===== Reddit =====
 .iframeReddit {
   max-width: 100%;
-  height: auto;
+}
+
+.redditWrapper {
+  width: 100%;
+
+  :global(iframe) {
+    max-width: 100% !important;
+    width: 100% !important;
+    border: none !important;
+  }
+
+  :global(blockquote) {
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
 }
 
 // ===== Instagram =====
 .iframeInstagram {
   max-width: 100%;
-  height: auto;
 }
 
 .socialMediaEmbed--instagram .embedWrapper :global(.instagram-media) {
@@ -344,13 +356,11 @@
 // ===== Spotify =====
 .iframeSpotify {
   max-width: 100%;
-  height: auto;
 }
 
 // ===== Soundcloud =====
 .iframeSoundcloud {
   max-width: 100%;
-  height: auto;
 }
 
 // ===== Generic (fallback) =====
@@ -432,11 +442,4 @@
     padding-bottom: 56.25%;
   }
 
-  .iframeFacebook {
-    min-height: 340px;
-  }
-
-  .iframeInstagram {
-    min-height: 360px;
-  }
 }
