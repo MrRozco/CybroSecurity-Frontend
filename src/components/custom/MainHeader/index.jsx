@@ -2,23 +2,67 @@
 import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "@mui/material/Skeleton";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getStrapiMediaUrl } from "@/lib/strapi";
 import styles from "./styles.module.scss";
 
 export default function MainHeader({ data }) {
   if (!data.blogs || data.blogs.length === 0) return null;
 
+  const desktopFeaturedBottomPadding = 96;
   const [firstBlog, ...otherBlogs] = data.blogs;
+  const featuredMediaRef = useRef(null);
+  const featuredMetaRef = useRef(null);
+  const [featuredSpacing, setFeaturedSpacing] = useState(0);
+
+  useEffect(() => {
+    const mediaElement = featuredMediaRef.current;
+    const metaElement = featuredMetaRef.current;
+
+    if (!mediaElement || !metaElement) return undefined;
+
+    const updateFeaturedSpacing = () => {
+      if (window.innerWidth < 768) {
+        setFeaturedSpacing((currentSpacing) => (currentSpacing === 0 ? currentSpacing : 0));
+        return;
+      }
+
+      const mediaRect = mediaElement.getBoundingClientRect();
+      const metaRect = metaElement.getBoundingClientRect();
+      const overflow = Math.max(
+        0,
+        Math.ceil(metaRect.bottom - mediaRect.bottom - desktopFeaturedBottomPadding)
+      );
+      setFeaturedSpacing((currentSpacing) =>
+        currentSpacing === overflow ? currentSpacing : overflow
+      );
+    };
+
+    const animationFrameId = window.requestAnimationFrame(updateFeaturedSpacing);
+    window.addEventListener("resize", updateFeaturedSpacing);
+
+    let resizeObserver;
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(updateFeaturedSpacing);
+      resizeObserver.observe(mediaElement);
+      resizeObserver.observe(metaElement);
+    }
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", updateFeaturedSpacing);
+      resizeObserver?.disconnect();
+    };
+  }, [desktopFeaturedBottomPadding, firstBlog?.Title, firstBlog?.Excerpt, firstBlog?.author?.Name, firstBlog?.category?.Name]);
 
   return (
     <header className={`container ${styles.mainHeader}`}>
       <div className={styles.mainHeader__inner}>
         {/* Main blog (large) */}
-        <div className={styles.mainHeader__featured}>
+        <div className={styles.mainHeader__featured} style={{ marginBottom: featuredSpacing }}>
           {firstBlog ? (
             <Link href={`/blogs/${firstBlog.Slug}`} className={styles.mainHeader__featuredLink}>
-              <div style={{ position: "relative" }}>
+              <div style={{ position: "relative" }} ref={featuredMediaRef}>
                 <div className={styles.mainHeader__overlay} />
                 <Image
                   src={getStrapiMediaUrl(firstBlog.FeaturedImage.url)}
@@ -27,7 +71,7 @@ export default function MainHeader({ data }) {
                   height={700}
                   className={styles.mainHeader__featuredImage}
                 />
-                <div className={styles.mainHeader__featuredMeta}>
+                <div className={styles.mainHeader__featuredMeta} ref={featuredMetaRef}>
                   <h1 className={styles.mainHeader__featuredTitle}>{firstBlog.Title}</h1>
                   <p className={styles.mainHeader__featuredExcerpt}>{firstBlog.Excerpt}</p>
                   <div className={styles.mainHeader__featuredAuthor}>

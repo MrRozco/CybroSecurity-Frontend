@@ -425,12 +425,12 @@
 
 @include respond-to(sm) {
   .socialMediaEmbed {
-    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 1.4rem);
+    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 0.75rem);
     margin: $space-6 0;
   }
 
   .socialMediaEmbed--nonYoutube {
-    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 1.4rem);
+    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 0.75rem);
   }
 
   .embedTitle {

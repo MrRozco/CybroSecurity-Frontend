@@ -111,7 +111,9 @@ export default function SocialMediaEmbed({ data }) {
   }, [provider]);
 
   useEffect(() => {
-    if (provider !== 'reddit' || !oembed?.html) return;
+    if (provider !== 'reddit' || !oembed?.html || !hasMounted || !redditContainerRef.current) {
+      return;
+    }
 
     const processReddit = () => {
       if (window?.reddit?.init) {
@@ -122,7 +124,7 @@ export default function SocialMediaEmbed({ data }) {
     const existingScript = document.getElementById('reddit-embed-js');
     if (existingScript) {
       existingScript.addEventListener('load', processReddit, { once: true });
-      processReddit();
+      window.requestAnimationFrame(processReddit);
       return;
     }
 
@@ -132,7 +134,7 @@ export default function SocialMediaEmbed({ data }) {
     script.async = true;
     script.onload = processReddit;
     document.body.appendChild(script);
-  }, [provider, oembed?.html, url]);
+  }, [provider, oembed?.html, url, hasMounted]);
 
   // Extract video ID from YouTube URL for custom embed
   const getYouTubeId = (youtubeUrl) => {
