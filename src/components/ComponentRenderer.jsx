@@ -4,6 +4,7 @@ import CategoryFeed from "./custom/CategoryFeed";
 import CrewHeader from "./custom/CrewHeader";
 import CrewMembers from "./custom/CrewMembers";
 import SocialMediaSection from "./custom/socialMediaSection";
+import ExcerptSection from "./custom/ExcerptSection";
 
 const componentMap = {
   "structure.main-header": MainHeader,
@@ -11,6 +12,7 @@ const componentMap = {
   "structure.crew-header": CrewHeader,
   "structure.crew-members": CrewMembers,
   "structure.social-media-section": SocialMediaSection,
+  "structure.excerpt-section": ExcerptSection,
   // Add other component mappings here
 };
 

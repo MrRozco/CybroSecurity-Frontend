@@ -1,0 +1,208 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+// ============================================================
+// EXCERPT SECTION — link preview card with increased left padding
+// ============================================================
+
+.excerptSection {
+  --embed-border-color: #{$color-primary};
+  --embed-border-hover: #{$color-accent};
+  padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 2rem);
+  margin: $space-6 0;
+  margin-left: $space-10;
+  background-color: $color-bg-card;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(25, 207, 249, 0.22);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  width: 58%;
+  max-width: 640px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  transition:
+    background-color $transition-base,
+    border-color $transition-base,
+    box-shadow $transition-base;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(
+      180deg,
+      var(--embed-border-color) 0%,
+      var(--embed-border-color) 50%,
+      var(--embed-border-hover) 50%,
+      var(--embed-border-hover) 100%
+    );
+    background-size: 100% 200%;
+    background-position: 0 0;
+    box-shadow: 1px 0 12px rgba(25, 207, 249, 0.18);
+    transition:
+      width $transition-base,
+      background-position $transition-base,
+      box-shadow $transition-base;
+  }
+
+  &:hover {
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.42);
+
+    &::before {
+      width: 6px;
+      background-position: 0 0;
+      animation: embed-border-wave 1.2s ease forwards;
+      box-shadow: 2px 0 16px rgba(25, 207, 249, 0.3);
+    }
+  }
+}
+
+@keyframes embed-border-wave {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+.excerptSection__text {
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.excerptSection__media {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sectionHeader {
+  margin-bottom: $space-4;
+  padding-bottom: $space-3;
+  padding-left: 0.5rem;
+  border-bottom: 1px solid rgba(25, 207, 249, 0.2);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: $color-primary;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.sectionSummary {
+  margin: $space-2 0 0;
+  color: $color-text-muted;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  text-align: left;
+}
+
+.embedTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: $color-text;
+  margin: 0 0 $space-2 0;
+  padding-left: 0.5rem;
+  line-height: 1.35;
+  text-align: left;
+  box-sizing: border-box;
+  width: 100%;
+
+  @include respond-above(md) {
+    font-size: 1.4rem;
+  }
+
+  a {
+    color: $color-text;
+    text-decoration: none;
+    @include transition(color);
+
+    &:hover {
+      color: $color-primary;
+      text-decoration: underline;
+    }
+  }
+}
+
+.embedAuthor {
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  margin: 0 0 $space-4 0;
+  padding-left: 0.5rem;
+  text-align: left;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.embedWrapper {
+  margin: $space-4 0 0 0;
+  padding-left: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.genericEmbedLink {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  @include transition(transform);
+  text-decoration: none;
+
+  &:hover {
+    transform: scale(1.02);
+
+    .embedOverlay {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+}
+
+.thumbnailImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border-radius: 0.5rem;
+}
+
+.embedOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: $space-4;
+  color: white;
+  @include transition(background-color);
+
+  p {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+}
+
+@include respond-to(sm) {
+  .excerptSection {
+    width: 100%;
+    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 1.8rem);
+    margin-left: 0;
+  }
+
+  .embedTitle {
+    font-size: 1.1rem;
+  }
+}

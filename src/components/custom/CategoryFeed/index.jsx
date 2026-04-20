@@ -5,14 +5,17 @@ import Skeleton from '@mui/material/Skeleton';
 import styles from './styles.module.scss';
 
 export default async function CategoryFeed(data) {
-  const { category, topBlogs, topTitle } = data.data;
+  const { category, topBlogs, topTitle, color } = data.data;
   const categories = await getCategories();
   const feedCategory = categories.find((cat) => cat.Slug === category.Slug);
+  const sidebarBackground = /^#([0-9A-F]{3}|[0-9A-F]{6})$/i.test(color || '')
+    ? { backgroundColor: color }
+    : undefined;
 
   if (!feedCategory) return <div>Category not found</div>;
 
   const response = await fetch(
-    `${STRAPI_ORIGIN}/api/blogs?filters[category][Slug][$eq]=${feedCategory.Slug}`,
+    `${STRAPI_ORIGIN}/api/blogs?filters[category][Slug][$eq]=${feedCategory.Slug}&populate[0]=FeaturedImage&populate[1]=author&populate[2]=category`,
     { next: { revalidate: 3600 } }
   );
 
@@ -49,6 +52,20 @@ export default async function CategoryFeed(data) {
               <div className={styles.categoryFeed__featuredMeta}>
                 <h3 className={styles.categoryFeed__featuredTitle}>{firstBlog.Title}</h3>
                 <p className={styles.categoryFeed__featuredExcerpt}>{firstBlog.Excerpt}</p>
+                <div className={styles.categoryFeed__featuredAuthor}>
+                  {firstBlog.author?.Name && (
+                    <>
+                      <p>By</p>
+                      <p className={styles.categoryFeed__authorName}>{firstBlog.author.Name}</p>
+                    </>
+                  )}
+                  {firstBlog.category?.Name && (
+                    <>
+                      <p>in</p>
+                      <p className={styles.categoryFeed__categoryName}>{firstBlog.category.Name}</p>
+                    </>
+                  )}
+                </div>
               </div>
             </Link>
           ) : (
@@ -65,6 +82,20 @@ export default async function CategoryFeed(data) {
                   <div className={styles.categoryFeed__otherContent}>
                     <h3 className={styles.categoryFeed__otherTitle}>{blog.Title}</h3>
                     <p className={styles.categoryFeed__otherExcerpt}>{blog.Excerpt}</p>
+                    <div className={styles.categoryFeed__otherMeta}>
+                      {blog.author?.Name && (
+                        <>
+                          <p>By</p>
+                          <p className={styles.categoryFeed__authorName}>{blog.author.Name}</p>
+                        </>
+                      )}
+                      {blog.category?.Name && (
+                        <>
+                          <p>in</p>
+                          <p className={styles.categoryFeed__categoryName}>{blog.category.Name}</p>
+                        </>
+                      )}
+                    </div>
                   </div>
                   {blog.FeaturedImage && (
                     <Image
@@ -100,7 +131,7 @@ export default async function CategoryFeed(data) {
       </div>
 
       {/* Sidebar */}
-      <div className={styles.categoryFeed__sidebar}>
+      <div className={styles.categoryFeed__sidebar} style={sidebarBackground}>
         {topTitle && (
           <h3 className={styles.categoryFeed__sidebarTitle}>{topTitle}</h3>
         )}

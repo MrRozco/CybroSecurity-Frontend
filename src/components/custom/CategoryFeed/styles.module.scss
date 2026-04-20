@@ -88,6 +88,17 @@
   font-size: 1.25rem;
 }
 
+.categoryFeed__featuredAuthor {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin-top: $space-1;
+
+  p {
+    margin: 0;
+  }
+}
+
 // Other posts list
 .categoryFeed__otherItem {
   display: flex;
@@ -118,6 +129,25 @@
   color: $color-text;
   margin-bottom: $space-4;
   font-size: 1.25rem;
+}
+
+.categoryFeed__otherMeta {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  margin-top: $space-1;
+
+  p {
+    margin: 0;
+  }
+}
+
+.categoryFeed__authorName {
+  color: $color-accent;
+}
+
+.categoryFeed__categoryName {
+  color: $color-primary;
 }
 
 .categoryFeed__otherImage {

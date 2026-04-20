@@ -6,72 +6,109 @@
 // ============================================================
 
 .socialMediaEmbed {
-  padding: $space-4;
+  --embed-border-color: #{$color-primary};
+  --embed-border-hover: #{$color-accent};
+  padding: $space-4 $space-4 $space-4 calc(#{$space-4} + 2rem);
   margin: $space-8 0;
   background-color: $color-bg-card;
   border-radius: 0.75rem;
-  border-left: 4px solid $color-primary;
   border: 1px solid rgba(25, 207, 249, 0.22);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   width: 90%;
   max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
-  @include transition(background-color, border-color);
+  position: relative;
+  transition:
+    background-color $transition-base,
+    border-color $transition-base,
+    box-shadow $transition-base;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(
+      180deg,
+      var(--embed-border-color) 0%,
+      var(--embed-border-color) 50%,
+      var(--embed-border-hover) 50%,
+      var(--embed-border-hover) 100%
+    );
+    background-size: 100% 200%;
+    background-position: 0 0;
+    box-shadow: 1px 0 12px rgba(25, 207, 249, 0.18);
+    transition:
+      width $transition-base,
+      background-position $transition-base,
+      box-shadow $transition-base;
+  }
 
   &:hover {
-    border-left-color: $color-accent;
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.42);
+
+    &::before {
+      width: 6px;
+      background-position: 0 0;
+      animation: embed-border-wave 1.2s ease forwards;
+      box-shadow: 2px 0 16px rgba(25, 207, 249, 0.3);
+    }
   }
 
   // Provider-specific styling
   &--youtube {
-    border-left-color: #ff0000;
   }
 
   &--twitter {
-    border-left-color: #1da1f2;
   }
 
   &--facebook {
-    border-left-color: #1877f2;
   }
 
   &--reddit {
-    border-left-color: #ff4500;
   }
 
   &--instagram {
-    border-left-color: #e4405f;
   }
 
   &--tiktok {
-    border-left-color: #25f4ee;
   }
 
   &--vimeo {
-    border-left-color: #1ab7ea;
   }
 
   &--spotify {
-    border-left-color: #1db954;
   }
 
   &--soundcloud {
-    border-left-color: #ff7700;
   }
 
   &--generic {
-    border-left-color: $color-border;
+  }
+}
+
+@keyframes embed-border-wave {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 100%;
   }
 }
 
 .socialMediaEmbed__text {
   width: 100%;
   text-align: left;
+  box-sizing: border-box;
 }
 
 .socialMediaEmbed__media {
   width: 100%;
+  box-sizing: border-box;
 }
 
 .socialMediaEmbed--split {
@@ -159,9 +196,10 @@
 }
 
 .socialMediaEmbed--nonYoutube {
-  padding: $space-3;
+  padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 2rem);
   margin: $space-6 0;
-  margin-left: $space-16;
+  margin-left: $space-10;
+  height: fit-content;
 }
 
 .socialMediaEmbed--nonYoutube .sectionHeader {
@@ -245,7 +283,7 @@
 // ===== Facebook =====
 .iframeFacebook {
   max-width: 100%;
-  min-height: 380px;
+  height: auto;
 }
 
 .facebookWrapper {
@@ -262,13 +300,13 @@
 // ===== Reddit =====
 .iframeReddit {
   max-width: 100%;
-  min-height: 320px;
+  height: auto;
 }
 
 // ===== Instagram =====
 .iframeInstagram {
   max-width: 100%;
-  min-height: 420px;
+  height: auto;
 }
 
 .socialMediaEmbed--instagram .embedWrapper :global(.instagram-media) {
@@ -306,13 +344,13 @@
 // ===== Spotify =====
 .iframeSpotify {
   max-width: 100%;
-  min-height: 260px;
+  height: auto;
 }
 
 // ===== Soundcloud =====
 .iframeSoundcloud {
   max-width: 100%;
-  min-height: 190px;
+  height: auto;
 }
 
 // ===== Generic (fallback) =====
@@ -377,8 +415,12 @@
 
 @include respond-to(sm) {
   .socialMediaEmbed {
-    padding: $space-3;
+    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 1.4rem);
     margin: $space-6 0;
+  }
+
+  .socialMediaEmbed--nonYoutube {
+    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 1.4rem);
   }
 
   .embedTitle {
