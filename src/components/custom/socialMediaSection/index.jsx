@@ -4,14 +4,99 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import styles from './styles.module.scss';
 
+const LINKEDIN_EMBED_HEIGHT = 620;
+
+const runAfterPaint = (callback) => {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(callback);
+  });
+};
+
+const loadExternalScript = ({ id, src, onLoad }) => {
+  const handleLoad = () => {
+    runAfterPaint(onLoad);
+  };
+
+  const existingScript = id ? document.getElementById(id) : document.querySelector(`script[src="${src}"]`);
+
+  if (existingScript) {
+    if (existingScript.dataset.loaded === 'true') {
+      handleLoad();
+      return () => undefined;
+    }
+
+    existingScript.addEventListener('load', handleLoad, { once: true });
+    return () => existingScript.removeEventListener('load', handleLoad);
+  }
+
+  const script = document.createElement('script');
+
+  if (id) {
+    script.id = id;
+  }
+
+  script.src = src;
+  script.async = true;
+  script.onload = () => {
+    script.dataset.loaded = 'true';
+    handleLoad();
+  };
+  document.body.appendChild(script);
+
+  return () => script.removeEventListener?.('load', handleLoad);
+};
+
+const hydrateEmbedScripts = (container) => {
+  if (!container) return;
+
+  const scripts = Array.from(container.querySelectorAll('script'));
+
+  scripts.forEach((script) => {
+    const replacement = document.createElement('script');
+
+    Array.from(script.attributes).forEach((attribute) => {
+      replacement.setAttribute(attribute.name, attribute.value);
+    });
+
+    if (script.src) {
+      replacement.src = script.src;
+      replacement.async = script.async ?? true;
+    } else {
+      replacement.textContent = script.textContent;
+    }
+
+    script.parentNode?.replaceChild(replacement, script);
+  });
+};
+
+const getLinkedInEmbedUrl = (linkedinUrl) => {
+  if (!linkedinUrl) return null;
+
+  const decodedUrl = decodeURIComponent(linkedinUrl);
+  const activityMatch = decodedUrl.match(/activity[:/-](\d+)/i);
+  if (activityMatch) {
+    return `https://www.linkedin.com/embed/feed/update/urn:li:activity:${activityMatch[1]}`;
+  }
+
+  const shareMatch = decodedUrl.match(/share[:/-](\d+)/i);
+  if (shareMatch) {
+    return `https://www.linkedin.com/embed/feed/update/urn:li:share:${shareMatch[1]}`;
+  }
+
+  const ugcPostMatch = decodedUrl.match(/ugcPost[:/-](\d+)/i);
+  if (ugcPostMatch) {
+    return `https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:${ugcPostMatch[1]}`;
+  }
+
+  return null;
+};
+
 export default function SocialMediaEmbed({ data }) {
   if (!data || !data.embed) return null;
 
   const { url, oembed, thumbnail } = data.embed;
   const twitterContainerRef = useRef(null);
-  const tiktokContainerRef = useRef(null);
-  const instagramContainerRef = useRef(null);
-  const redditContainerRef = useRef(null);
+  const htmlEmbedContainerRef = useRef(null);
   const [hasMounted, setHasMounted] = useState(false);
 
   // Detect provider from URL or oembed
@@ -25,6 +110,7 @@ export default function SocialMediaEmbed({ data }) {
     if (providerName.includes('reddit')) return 'reddit';
     if (providerName.includes('instagram')) return 'instagram';
     if (providerName.includes('tiktok')) return 'tiktok';
+    if (providerName.includes('linkedin') || url.includes('linkedin.com')) return 'linkedin';
     if (providerName.includes('vimeo')) return 'vimeo';
     if (providerName.includes('spotify')) return 'spotify';
     if (providerName.includes('soundcloud')) return 'soundcloud';
@@ -45,41 +131,38 @@ export default function SocialMediaEmbed({ data }) {
 
     const loadTwitterWidgets = () => {
       if (window.twttr?.widgets && twitterContainerRef.current) {
-        window.twttr.widgets.load(twitterContainerRef.current);
+        runAfterPaint(() => window.twttr.widgets.load(twitterContainerRef.current));
       }
     };
 
-    if (window.twttr?.widgets) {
-      loadTwitterWidgets();
-      return;
-    }
-
-    const existingScript = document.getElementById('twitter-wjs');
-    if (existingScript) {
-      existingScript.addEventListener('load', loadTwitterWidgets, { once: true });
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.id = 'twitter-wjs';
-    script.src = 'https://platform.twitter.com/widgets.js';
-    script.async = true;
-    script.onload = loadTwitterWidgets;
-    document.body.appendChild(script);
+    return loadExternalScript({
+      id: 'twitter-wjs',
+      src: 'https://platform.twitter.com/widgets.js',
+      onLoad: loadTwitterWidgets,
+    });
   }, [provider, url]);
 
   // Load TikTok embed script
   useEffect(() => {
     if (provider !== 'tiktok') return;
 
-    const existingScript = document.querySelector('script[src="https://www.tiktok.com/embed.js"]');
-    if (existingScript) return;
+    const renderTikTokEmbeds = () => {
+      if (window.tiktokEmbed?.lib?.render) {
+        const nodes = Array.from(document.getElementsByClassName('tiktok-embed')).filter(
+          (node) => node.id === ''
+        );
+        window.tiktokEmbed.lib.render(nodes);
+      } else if (htmlEmbedContainerRef.current) {
+        hydrateEmbedScripts(htmlEmbedContainerRef.current);
+      }
+    };
 
-    const script = document.createElement('script');
-    script.src = 'https://www.tiktok.com/embed.js';
-    script.async = true;
-    document.body.appendChild(script);
-  }, [provider]);
+    return loadExternalScript({
+      id: 'ttEmbedLibScript',
+      src: 'https://www.tiktok.com/embed.js',
+      onLoad: renderTikTokEmbeds,
+    });
+  }, [provider, url, oembed?.html]);
 
   // Load Instagram embed script
   useEffect(() => {
@@ -96,45 +179,24 @@ export default function SocialMediaEmbed({ data }) {
       return;
     }
 
-    const existingScript = document.getElementById('instagram-embed-js');
-    if (existingScript) {
-      existingScript.addEventListener('load', processInstagram, { once: true });
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.id = 'instagram-embed-js';
-    script.src = 'https://www.instagram.com/embed.js';
-    script.async = true;
-    script.onload = processInstagram;
-    document.body.appendChild(script);
-  }, [provider]);
+    return loadExternalScript({
+      id: 'instagram-embed-js',
+      src: 'https://www.instagram.com/embed.js',
+      onLoad: processInstagram,
+    });
+  }, [provider, url]);
 
   useEffect(() => {
-    if (provider !== 'reddit' || !oembed?.html || !hasMounted || !redditContainerRef.current) {
+    if (!hasMounted || !oembed?.html || !htmlEmbedContainerRef.current) {
       return;
     }
 
-    const processReddit = () => {
-      if (window?.reddit?.init) {
-        window.reddit.init();
-      }
-    };
-
-    const existingScript = document.getElementById('reddit-embed-js');
-    if (existingScript) {
-      existingScript.addEventListener('load', processReddit, { once: true });
-      window.requestAnimationFrame(processReddit);
+    if (!['generic', 'linkedin', 'tiktok'].includes(provider)) {
       return;
     }
 
-    const script = document.createElement('script');
-    script.id = 'reddit-embed-js';
-    script.src = 'https://embed.redditmedia.com/widgets/platform.js';
-    script.async = true;
-    script.onload = processReddit;
-    document.body.appendChild(script);
-  }, [provider, oembed?.html, url, hasMounted]);
+    runAfterPaint(() => hydrateEmbedScripts(htmlEmbedContainerRef.current));
+  }, [provider, oembed?.html, hasMounted, url]);
 
   // Extract video ID from YouTube URL for custom embed
   const getYouTubeId = (youtubeUrl) => {
@@ -160,6 +222,14 @@ export default function SocialMediaEmbed({ data }) {
   };
 
   const getEmbedHeight = (fallbackHeight) => getNumericHeight(oembed?.height) || fallbackHeight;
+
+  const renderHtmlEmbed = (className) => (
+    <div
+      ref={htmlEmbedContainerRef}
+      className={className}
+      dangerouslySetInnerHTML={{ __html: oembed.html }}
+    />
+  );
 
   const renderEmbed = () => {
     switch (provider) {
@@ -202,12 +272,7 @@ export default function SocialMediaEmbed({ data }) {
 
       case 'facebook':
         if (oembed?.html) {
-          return (
-            <div
-              className={`${styles.embedWrapper} ${styles.facebookWrapper}`}
-              dangerouslySetInnerHTML={{ __html: oembed.html }}
-            />
-          );
+          return renderHtmlEmbed(`${styles.embedWrapper} ${styles.facebookWrapper}`);
         }
         return (
           <div className={styles.embedWrapper}>
@@ -226,17 +291,6 @@ export default function SocialMediaEmbed({ data }) {
         );
 
       case 'reddit':
-        if (oembed?.html && hasMounted) {
-          return (
-            <div
-              ref={redditContainerRef}
-              className={`${styles.embedWrapper} ${styles.redditWrapper}`}
-              dangerouslySetInnerHTML={{ __html: oembed.html }}
-            />
-          );
-        }
-
-        {
         let redditEmbedUrl = url;
         try {
           const parsed = new URL(url);
@@ -249,7 +303,7 @@ export default function SocialMediaEmbed({ data }) {
           <div className={styles.embedWrapper}>
             <iframe
               src={redditEmbedUrl}
-              height={hasMounted ? getEmbedHeight(240) : 240}
+              height={getEmbedHeight(240)}
               width="100%"
               style={{
                 border: 'none',
@@ -261,11 +315,14 @@ export default function SocialMediaEmbed({ data }) {
             />
           </div>
         );
-      }
 
       case 'instagram':
+        if (oembed?.html) {
+          return renderHtmlEmbed(`${styles.embedWrapper} ${styles.instagramWrapper}`);
+        }
+
         return (
-          <div className={styles.embedWrapper} ref={instagramContainerRef}>
+          <div className={styles.embedWrapper}>
             <blockquote
               className="instagram-media"
               data-instgrm-captioned
@@ -281,8 +338,12 @@ export default function SocialMediaEmbed({ data }) {
         );
 
       case 'tiktok':
+        if (oembed?.html) {
+          return renderHtmlEmbed(`${styles.embedWrapper} ${styles.tiktokWrapper}`);
+        }
+
         return (
-          <div className={styles.embedWrapper} ref={tiktokContainerRef}>
+          <div className={styles.embedWrapper}>
             <blockquote
               className="tiktok-embed"
               cite={url}
@@ -297,6 +358,45 @@ export default function SocialMediaEmbed({ data }) {
             </blockquote>
           </div>
         );
+
+      case 'linkedin': {
+        const linkedInEmbedUrl = getLinkedInEmbedUrl(url);
+
+        if (oembed?.html) {
+          return renderHtmlEmbed(`${styles.embedWrapper} ${styles.linkedinWrapper}`);
+        }
+
+        if (linkedInEmbedUrl) {
+          return (
+            <div className={styles.embedWrapper}>
+              <iframe
+                src={linkedInEmbedUrl}
+                width="100%"
+                height={getEmbedHeight(LINKEDIN_EMBED_HEIGHT)}
+                frameBorder="0"
+                allowFullScreen
+                title={oembed?.title || 'LinkedIn Post'}
+                className={styles.iframeLinkedIn}
+              />
+            </div>
+          );
+        }
+
+        return (
+          <div className={styles.embedWrapper}>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.genericEmbedLink}
+            >
+              <div className={styles.embedOverlay}>
+                <p>{oembed?.title || 'View LinkedIn Post'}</p>
+              </div>
+            </a>
+          </div>
+        );
+      }
 
       case 'vimeo': {
         const vimeoId = getVimeoId(url);
@@ -354,12 +454,7 @@ export default function SocialMediaEmbed({ data }) {
       default:
         // Generic embed using oembed HTML if available
         if (oembed?.html) {
-          return (
-            <div
-              className={styles.embedWrapper}
-              dangerouslySetInnerHTML={{ __html: oembed.html }}
-            />
-          );
+          return renderHtmlEmbed(styles.embedWrapper);
         }
 
         // Fallback: show thumbnail + link

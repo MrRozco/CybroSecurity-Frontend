@@ -8,8 +8,8 @@
 .socialMediaEmbed {
   --embed-border-color: #{$color-primary};
   --embed-border-hover: #{$color-accent};
-  padding: $space-4 $space-4 $space-4 calc(#{$space-4} + 2rem);
-  margin: $space-8 0;
+  padding: $space-4 $space-4 $space-6 calc(#{$space-4} + 2rem);
+  margin: $space-8 0 $space-10;
   background-color: $color-bg-card;
   border-radius: 0.75rem;
   border: 1px solid rgba(25, 207, 249, 0.22);
@@ -56,37 +56,6 @@
       animation: embed-border-wave 1.2s ease forwards;
       box-shadow: 2px 0 16px rgba(25, 207, 249, 0.3);
     }
-  }
-
-  // Provider-specific styling
-  &--youtube {
-  }
-
-  &--twitter {
-  }
-
-  &--facebook {
-  }
-
-  &--reddit {
-  }
-
-  &--instagram {
-  }
-
-  &--tiktok {
-  }
-
-  &--vimeo {
-  }
-
-  &--spotify {
-  }
-
-  &--soundcloud {
-  }
-
-  &--generic {
   }
 }
 
@@ -196,8 +165,8 @@
 }
 
 .socialMediaEmbed--nonYoutube {
-  padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 2rem);
-  margin: $space-6 0;
+  padding: $space-3 $space-3 $space-5 calc(#{$space-3} + 2rem);
+  margin: $space-6 0 $space-8;
   margin-left: $space-10;
   height: fit-content;
 }
@@ -328,11 +297,39 @@
   box-shadow: none !important;
 }
 
+.instagramWrapper {
+  width: 100%;
+}
+
 // ===== TikTok =====
 .socialMediaEmbed--tiktok .embedWrapper :global(.tiktok-embed) {
   max-width: 100% !important;
   min-width: 325px;
   margin: 0 !important;
+}
+
+.tiktokWrapper {
+  width: 100%;
+}
+
+// ===== LinkedIn =====
+.iframeLinkedIn {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+  background: #fff;
+}
+
+.linkedinWrapper {
+  width: 100%;
+
+  :global(iframe) {
+    width: 100% !important;
+    max-width: 100% !important;
+    border: none !important;
+    border-radius: 0.5rem !important;
+    background: #fff;
+  }
 }
 
 // ===== Vimeo =====
@@ -425,12 +422,12 @@
 
 @include respond-to(sm) {
   .socialMediaEmbed {
-    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 0.75rem);
-    margin: $space-6 0;
+    padding: $space-3 $space-3 $space-5 calc(#{$space-3} + 0.75rem);
+    margin: $space-6 0 $space-8;
   }
 
   .socialMediaEmbed--nonYoutube {
-    padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 0.75rem);
+    padding: $space-3 $space-3 $space-5 calc(#{$space-3} + 0.75rem);
   }
 
   .embedTitle {
