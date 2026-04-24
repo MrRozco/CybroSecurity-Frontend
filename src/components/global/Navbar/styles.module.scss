@@ -115,6 +115,47 @@
   }
 }
 
+.scrollTop {
+  position: fixed;
+  right: $space-4;
+  bottom: $space-4;
+  z-index: $z-overlay;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2 $space-3;
+  border: 1px solid #19cff9;
+  border-radius: 9999px;
+  background: rgba(10, 18, 33, 0.92);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  @include transition(transform);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(25, 207, 249, 0.45);
+    font-size: 1rem;
+    line-height: 1;
+    color: #19cff9;
+  }
+
+  &__label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #19cff9;
+  }
+}
+
 // ============================================================
 // SIDE DRAWER
 // ============================================================
