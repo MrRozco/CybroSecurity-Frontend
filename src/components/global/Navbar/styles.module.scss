@@ -9,6 +9,14 @@
   @include flex-between;
   padding: $space-12;
 
+  @include respond-to(md) {
+    padding: $space-4 $space-3;
+  }
+
+  @include respond-to(sm) {
+    padding: $space-3 $space-2;
+  }
+
   // Logo link
   &__logo {
     display: block;
@@ -111,6 +119,10 @@
 
     @include respond-above(md) {
       display: none;
+    }
+
+    @include respond-to(md) {
+      margin-right: $space-2;
     }
   }
 }
