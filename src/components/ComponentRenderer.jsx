@@ -5,6 +5,7 @@ import CrewHeader from "./custom/CrewHeader";
 import CrewMembers from "./custom/CrewMembers";
 import SocialMediaSection from "./custom/socialMediaSection";
 import ExcerptSection from "./custom/ExcerptSection";
+import JobPostings from "./custom/JobPostings";
 
 const componentMap = {
   "structure.main-header": MainHeader,
@@ -13,15 +14,16 @@ const componentMap = {
   "structure.crew-members": CrewMembers,
   "structure.social-media-section": SocialMediaSection,
   "structure.excerpt-section": ExcerptSection,
+  "structure.job-postings": JobPostings,
   // Add other component mappings here
 };
 
 
-export default function ComponentRenderer({ component }) {
+export default function ComponentRenderer({ component, componentProps = {} }) {
     const Component = componentMap[component.__component];
     if (!Component) {
         console.warn(`No component found for ${component.__component}`);
         return null; // or some fallback UI
     }
-    return <Component data={component} />;
+  return <Component data={component} {...componentProps} />;
     }

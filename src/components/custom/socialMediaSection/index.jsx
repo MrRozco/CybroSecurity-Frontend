@@ -52,6 +52,8 @@ const hydrateEmbedScripts = (container) => {
   const scripts = Array.from(container.querySelectorAll('script'));
 
   scripts.forEach((script) => {
+    if (!script?.isConnected) return;
+
     const replacement = document.createElement('script');
 
     Array.from(script.attributes).forEach((attribute) => {
@@ -65,7 +67,14 @@ const hydrateEmbedScripts = (container) => {
       replacement.textContent = script.textContent;
     }
 
-    script.parentNode?.replaceChild(replacement, script);
+    const parent = script.parentNode;
+    if (!parent || !parent.contains(script)) return;
+
+    try {
+      parent.replaceChild(replacement, script);
+    } catch {
+      // Embed scripts can mutate DOM quickly; skip stale nodes safely.
+    }
   });
 };
 

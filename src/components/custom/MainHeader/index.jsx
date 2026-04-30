@@ -4,6 +4,7 @@ import Link from "next/link";
 import Skeleton from "@mui/material/Skeleton";
 import React, { useEffect, useRef, useState } from "react";
 import { getStrapiMediaUrl } from "@/lib/strapi";
+import { formatAuthorName } from "@/lib/author";
 import styles from "./styles.module.scss";
 
 export default function MainHeader({ data }) {
@@ -77,8 +78,8 @@ export default function MainHeader({ data }) {
                   <div className={styles.mainHeader__featuredAuthor}>
                     {firstBlog.author?.Name && (
                       <>
-                        <p>By</p>
-                        <p className={styles.mainHeader__authorName}>{firstBlog.author.Name}</p>
+                        <p>by</p>
+                        <p className={styles.mainHeader__authorName}>{formatAuthorName(firstBlog.author.Name)}</p>
                       </>
                     )}
                     {firstBlog.category?.Name && (
@@ -112,8 +113,8 @@ export default function MainHeader({ data }) {
                   <div className={styles.mainHeader__storyMeta}>
                     {blog.author?.Name && (
                       <>
-                        <p>By</p>
-                        <p className={styles.mainHeader__authorName}>{blog.author.Name}</p>
+                        <p>by</p>
+                        <p className={styles.mainHeader__authorName}>{formatAuthorName(blog.author.Name)}</p>
                       </>
                     )}
                     {blog.category?.Name && (

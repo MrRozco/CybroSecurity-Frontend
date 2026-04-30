@@ -104,7 +104,7 @@
   margin: 0;
   color: $color-primary;
   font-size: 2rem;
-  letter-spacing: 0.04em;
+  letter-spacing: normal;
   text-transform: uppercase;
   text-align: left;
 }
@@ -115,6 +115,7 @@
   font-size: 0.95rem;
   line-height: 1.55;
   text-align: left;
+  text-transform: none;
 }
 
 // ===== Title & metadata =====
@@ -125,6 +126,7 @@
   margin: 0 0 $space-2 0;
   line-height: 1.35;
   text-align: left;
+  text-transform: uppercase;
 
   @include respond-above(md) {
     font-size: 1.4rem;
@@ -136,6 +138,7 @@
   color: $color-text-muted;
   margin: 0 0 $space-4 0;
   text-align: left;
+  text-transform: none;
 
   a {
     color: $color-primary;
@@ -154,6 +157,7 @@
   color: $color-text-muted;
   margin: $space-4 0 0 0;
   line-height: 1.6;
+  text-transform: none;
 }
 
 // ===== Embed wrapper =====

@@ -1,4 +1,5 @@
 import { getCategories, STRAPI_ORIGIN, getStrapiMediaUrl } from "@/lib/strapi";
+import { formatAuthorName } from "@/lib/author";
 import Link from 'next/link';
 import Image from 'next/image';
 import Skeleton from '@mui/material/Skeleton';
@@ -55,8 +56,8 @@ export default async function CategoryFeed(data) {
                 <div className={styles.categoryFeed__featuredAuthor}>
                   {firstBlog.author?.Name && (
                     <>
-                      <p>By</p>
-                      <p className={styles.categoryFeed__authorName}>{firstBlog.author.Name}</p>
+                      <p>by</p>
+                      <p className={styles.categoryFeed__authorName}>{formatAuthorName(firstBlog.author.Name)}</p>
                     </>
                   )}
                   {firstBlog.category?.Name && (
@@ -85,8 +86,8 @@ export default async function CategoryFeed(data) {
                     <div className={styles.categoryFeed__otherMeta}>
                       {blog.author?.Name && (
                         <>
-                          <p>By</p>
-                          <p className={styles.categoryFeed__authorName}>{blog.author.Name}</p>
+                          <p>by</p>
+                          <p className={styles.categoryFeed__authorName}>{formatAuthorName(blog.author.Name)}</p>
                         </>
                       )}
                       {blog.category?.Name && (

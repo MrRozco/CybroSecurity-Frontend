@@ -33,6 +33,7 @@
   white-space: nowrap;
   font-size: 4.5rem !important;
   font-weight: bold;
+  text-transform: uppercase;
 
   @include respond-above(md) {
     position: absolute;
@@ -80,12 +81,14 @@
 .categoryFeed__featuredTitle {
   font-size: 3rem !important; // text-5xl
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 .categoryFeed__featuredExcerpt {
   color: $color-text;
   margin-top: $space-2;
   font-size: 1.25rem;
+  text-transform: none;
 }
 
 .categoryFeed__featuredAuthor {
@@ -123,12 +126,14 @@
   font-weight: bold;
   margin-bottom: $space-2;
   color: $color-text;
+  text-transform: uppercase;
 }
 
 .categoryFeed__otherExcerpt {
   color: $color-text;
   margin-bottom: $space-4;
   font-size: 1.25rem;
+  text-transform: none;
 }
 
 .categoryFeed__otherMeta {
@@ -144,10 +149,12 @@
 
 .categoryFeed__authorName {
   color: $color-accent;
+  text-transform: none;
 }
 
 .categoryFeed__categoryName {
   color: $color-primary;
+  text-transform: none;
 }
 
 .categoryFeed__otherImage {
@@ -188,10 +195,11 @@
   white-space: nowrap;
   font-size: 4.5rem !important;
   font-weight: bold;
+  text-transform: uppercase;
 
   @include respond-above(md) {
     position: absolute;
-    right: calc(100% + 2.9rem);
+    right: calc(100% + 3.7rem);
     top: 0;
     transform: rotate(-90deg);
     transform-origin: top right;
@@ -215,10 +223,12 @@
   font-weight: bold;
   margin-top: $space-4;
   color: $color-bg; // dark text on light panel
+  text-transform: uppercase;
 }
 
 .categoryFeed__topExcerpt {
   color: $color-text-dark;
   font-size: 1.25rem;
   margin-top: $space-2;
+  text-transform: none;
 }

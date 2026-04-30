@@ -1,6 +1,9 @@
 import qs from 'qs';
 
-const FALLBACK_STRAPI_URL = 'https://miraculous-agreement-441a168338.strapiapp.com';
+const FALLBACK_STRAPI_URL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:1337'
+    : 'https://miraculous-agreement-441a168338.strapiapp.com';
 const rawStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || FALLBACK_STRAPI_URL;
 const normalizedStrapiUrl = rawStrapiUrl.replace(/\/+$/, '');
 
@@ -42,7 +45,10 @@ export async function fetchFromStrapi(endpoint, query = {}, options = {}) {
     const data = await response.json();
     return data.data;
   } catch (error) {
-    console.error(`Error fetching from Strapi: ${endpoint}`, error.message);
+    console.error(`Error fetching from Strapi: ${endpoint}`, {
+      url,
+      message: error.message,
+    });
     throw new Error(`Failed to fetch from Strapi: ${endpoint}`);
   }
 }
@@ -66,6 +72,14 @@ export async function getBlogBySlug(slug) {
 // Get all categories
 export async function getCategories() {
   return fetchFromStrapi('categories');
+}
+
+export async function getJobCategories() {
+  return fetchFromStrapi('job-categories');
+}
+
+export async function getJobLevels() {
+  return fetchFromStrapi('job-levels');
 }
 
 export async function getBlogsByCategory(categorySlug) {

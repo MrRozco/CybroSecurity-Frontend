@@ -3,6 +3,7 @@ import { getBlogBySlug, getBlogs } from '@/lib/strapi';
 import Link from 'next/link';
 import Script from 'next/script';
 import BlogContent from '@/components/custom/BlogContent';
+import { formatAuthorName } from '@/lib/author';
 import styles from './styles.module.scss';
 
 // Generate metadata dynamically based on blog
@@ -61,7 +62,7 @@ export default async function BlogPost({ params }) {
       )}
       <h1 className={styles.blogPost__title}>{blog.Title}</h1>
       <p className={styles.blogPost__meta}>
-        By {blog.author?.Name || 'Unknown'} |{' '}
+        By {formatAuthorName(blog.author?.Name) || 'Unknown'} |{' '}
         {new Date(blog.publishedAt).toLocaleDateString()}
         </p>
         {blog.Content && <BlogContent content={blog.Content} />}
