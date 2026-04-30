@@ -107,6 +107,7 @@ export default function SocialMediaEmbed({ data }) {
   const twitterContainerRef = useRef(null);
   const htmlEmbedContainerRef = useRef(null);
   const [hasMounted, setHasMounted] = useState(false);
+  const [isHoverActivated, setIsHoverActivated] = useState(false);
 
   // Detect provider from URL or oembed
   const provider = useMemo(() => {
@@ -510,7 +511,10 @@ export default function SocialMediaEmbed({ data }) {
         isLeftStackLayout ? styles['socialMediaEmbed--leftStack'] : ''
       } ${
         isNonYoutube ? styles['socialMediaEmbed--nonYoutube'] : ''
+      } ${
+        isHoverActivated ? styles['socialMediaEmbed--activated'] : ''
       }`}
+      onMouseEnter={() => setIsHoverActivated(true)}
     >
       <div className={styles.socialMediaEmbed__text}>
         {(data?.title || data?.summary) && (

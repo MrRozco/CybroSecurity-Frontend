@@ -69,6 +69,52 @@
   }
 }
 
+.socialMediaEmbed--youtube {
+  --embed-border-hover: #ff4d4d;
+}
+
+.socialMediaEmbed--twitter {
+  --embed-border-hover: #56b7f5;
+}
+
+.socialMediaEmbed--facebook {
+  --embed-border-hover: #4c96f5;
+}
+
+.socialMediaEmbed--reddit {
+  --embed-border-hover: #ff7a4d;
+}
+
+.socialMediaEmbed--instagram {
+  --embed-border-hover: #eb5b8d;
+}
+
+.socialMediaEmbed--tiktok {
+  --embed-border-hover: #fe2c55;
+}
+
+.socialMediaEmbed--linkedin {
+  --embed-border-hover: #3d88d2;
+}
+
+.socialMediaEmbed--vimeo {
+  --embed-border-hover: #53c9ef;
+}
+
+.socialMediaEmbed--spotify {
+  --embed-border-hover: #4acb77;
+}
+
+.socialMediaEmbed--soundcloud {
+  --embed-border-hover: #ff824d;
+}
+
+.socialMediaEmbed--activated::before {
+  width: 6px;
+  background-position: 0 100%;
+  box-shadow: 2px 0 16px rgba(25, 207, 249, 0.3);
+}
+
 .socialMediaEmbed__text {
   width: 100%;
   text-align: left;

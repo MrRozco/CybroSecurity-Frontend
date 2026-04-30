@@ -53,6 +53,15 @@ export async function fetchFromStrapi(endpoint, query = {}, options = {}) {
   }
 }
 
+export async function fetchFromStrapiSafe(endpoint, query = {}, options = {}) {
+  try {
+    return await fetchFromStrapi(endpoint, query, options);
+  } catch (error) {
+    console.warn(`Optional Strapi endpoint unavailable: ${endpoint}`, error.message);
+    return options.fallback ?? null;
+  }
+}
+
 // Get all blogs
 export async function getBlogs() {
   return fetchFromStrapi('blogs');
@@ -75,11 +84,11 @@ export async function getCategories() {
 }
 
 export async function getJobCategories() {
-  return fetchFromStrapi('job-categories');
+  return fetchFromStrapiSafe('job-categories', {}, { fallback: [] });
 }
 
 export async function getJobLevels() {
-  return fetchFromStrapi('job-levels');
+  return fetchFromStrapiSafe('job-levels', {}, { fallback: [] });
 }
 
 export async function getBlogsByCategory(categorySlug) {

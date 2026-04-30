@@ -7,7 +7,7 @@
 
 .excerptSection {
   --embed-border-color: #{$color-primary};
-  --embed-border-hover: #{$color-accent};
+  --embed-border-hover: #{$color-accent-purple};
   padding: $space-3 $space-3 $space-3 calc(#{$space-3} + 2rem);
   margin: $space-6 0;
   margin-left: $space-10;
@@ -68,6 +68,12 @@
   100% {
     background-position: 0 100%;
   }
+}
+
+.excerptSection--activated::before {
+  width: 6px;
+  background-position: 0 100%;
+  box-shadow: 2px 0 16px rgba(25, 207, 249, 0.3);
 }
 
 .excerptSection__text {

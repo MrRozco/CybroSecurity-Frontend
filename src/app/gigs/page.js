@@ -9,11 +9,13 @@ export const metadata = {
 export const revalidate = 3600;
 
 export default async function GigsPage() {
-  const [gigs, jobCategories, jobLevels] = await Promise.all([
-    getSingleType('gigs'),
+  const [gigsResult, jobCategories, jobLevels] = await Promise.all([
+    getSingleType('gigs').catch(() => null),
     getJobCategories(),
     getJobLevels(),
   ]);
+
+  const gigs = gigsResult && typeof gigsResult === 'object' ? gigsResult : { content: [] };
 
   const componentProps = {
     'structure.job-postings': {
