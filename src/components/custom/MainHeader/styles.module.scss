@@ -107,7 +107,7 @@
   .mainHeader__authorName{
     color: $color-accent;
     font-size: 1.125rem;
-    font-family: 'Unkempt', sans-serif;
+    font-family: var(--font-unkempt), sans-serif;
     font-style: normal;
     font-weight: 700;
     text-transform: none;
@@ -115,7 +115,7 @@
 
   .mainHeader__categoryName {
     color: $color-primary;
-    font-family: 'Jersey 15', sans-serif;
+    font-family: var(--font-jersey-15), sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 1.5rem;
@@ -198,7 +198,7 @@
 
   .mainHeader__authorName{
     color: $color-accent;
-    font-family: 'Unkempt', sans-serif;
+    font-family: var(--font-unkempt), sans-serif;
     font-style: normal;
     font-weight: 700;
     text-transform: none;
@@ -207,7 +207,7 @@
 
   .mainHeader__categoryName {
     color: $color-primary;
-    font-family: 'Jersey 15', sans-serif;
+    font-family: var(--font-jersey-15), sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 1.3rem;

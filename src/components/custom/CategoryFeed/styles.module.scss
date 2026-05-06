@@ -181,7 +181,7 @@
 
 .categoryFeed__authorName {
   color: $color-accent;
-  font-family: 'Unkempt', sans-serif;
+  font-family: var(--font-unkempt), sans-serif;
   font-style: normal;
   font-weight: 700;
   text-transform: none;
@@ -189,7 +189,7 @@
 
 .categoryFeed__categoryName {
   color: $color-primary;
-  font-family: 'Jersey 15', sans-serif;
+  font-family: var(--font-jersey-15), sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 1.5rem;
@@ -208,12 +208,13 @@
 
 .categoryFeed__viewAll {
   color: $color-primary;
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin-top: $space-4;
   display: inline-block;
+  text-decoration: underline;
 
   &:hover {
-    text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
 }
 

@@ -130,7 +130,7 @@
 
 .sectionAuthorName {
   color: $color-accent;
-  font-family: 'Unkempt', sans-serif;
+  font-family: var(--font-unkempt), sans-serif;
   font-style: normal;
   font-weight: 700;
   text-transform: none;
@@ -180,7 +180,7 @@
 
 .embedAuthorName {
   color: $color-accent;
-  font-family: 'Unkempt', sans-serif;
+  font-family: var(--font-unkempt), sans-serif;
   font-style: normal;
   font-weight: 700;
   text-transform: none;

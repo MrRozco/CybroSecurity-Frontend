@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Bebas_Neue } from "next/font/google";
+import { Geist, Geist_Mono, Bebas_Neue, Unkempt, Jersey_15 } from "next/font/google";
 import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
 import { getSingleType } from '@/lib/strapi';
@@ -20,6 +20,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const unkempt = Unkempt({
+  variable: "--font-unkempt",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
+const jersey15 = Jersey_15({
+  variable: "--font-jersey-15",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata = {
   title: {
     default: "CybroSecurity - Cybersecurity Solutions",
@@ -39,7 +51,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} ${bebasNeue.variable}`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} ${bebasNeue.variable} ${unkempt.variable} ${jersey15.variable}`}>
         {navbar && <Navbar data={navbar} />}
         {children}
         {footer && <Footer data={footer} />}

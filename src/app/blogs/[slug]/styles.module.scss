@@ -30,14 +30,14 @@
 
 .blogPost__authorName {
   color: $color-accent;
-  font-family: 'Unkempt', sans-serif;
+  font-family: var(--font-unkempt), sans-serif;
   font-style: normal;
   font-weight: 700;
 }
 
 .blogPost__categoryName {
   color: $color-primary;
-  font-family: 'Jersey 15', sans-serif;
+  font-family: var(--font-jersey-15), sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 1.15rem;
