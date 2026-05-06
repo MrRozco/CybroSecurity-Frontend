@@ -76,6 +76,46 @@
   box-shadow: 2px 0 16px rgba(25, 207, 249, 0.3);
 }
 
+.excerptSection--youtube {
+  --embed-border-hover: #ff4d4d;
+}
+
+.excerptSection--twitter {
+  --embed-border-hover: #ffffff;
+}
+
+.excerptSection--facebook {
+  --embed-border-hover: #4c96f5;
+}
+
+.excerptSection--reddit {
+  --embed-border-hover: #ff7a4d;
+}
+
+.excerptSection--instagram {
+  --embed-border-hover: #eb5b8d;
+}
+
+.excerptSection--tiktok {
+  --embed-border-hover: #fe2c55;
+}
+
+.excerptSection--linkedin {
+  --embed-border-hover: #3d88d2;
+}
+
+.excerptSection--vimeo {
+  --embed-border-hover: #53c9ef;
+}
+
+.excerptSection--spotify {
+  --embed-border-hover: #4acb77;
+}
+
+.excerptSection--soundcloud {
+  --embed-border-hover: #ff824d;
+}
+
 .excerptSection__text {
   width: 100%;
   text-align: left;

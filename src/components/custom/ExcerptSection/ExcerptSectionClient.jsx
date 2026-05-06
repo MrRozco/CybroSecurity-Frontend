@@ -27,9 +27,28 @@ export default function ExcerptSectionClient({ data, previewImage, hostname, lin
     ? formatAuthorName(rawComponentAuthorName)
     : null;
 
+  const getProvider = (url = '', host = '') => {
+    const source = `${url} ${host}`.toLowerCase();
+
+    if (source.includes('youtube.com') || source.includes('youtu.be')) return 'youtube';
+    if (source.includes('twitter.com') || source.includes('x.com')) return 'twitter';
+    if (source.includes('facebook.com') || source.includes('fb.com')) return 'facebook';
+    if (source.includes('reddit.com')) return 'reddit';
+    if (source.includes('instagram.com')) return 'instagram';
+    if (source.includes('tiktok.com')) return 'tiktok';
+    if (source.includes('linkedin.com')) return 'linkedin';
+    if (source.includes('vimeo.com')) return 'vimeo';
+    if (source.includes('spotify.com')) return 'spotify';
+    if (source.includes('soundcloud.com')) return 'soundcloud';
+
+    return 'generic';
+  };
+
+  const provider = getProvider(data?.url, hostname);
+
   return (
     <div
-      className={`${styles.excerptSection} ${isHoverActivated ? styles['excerptSection--activated'] : ''}`}
+      className={`${styles.excerptSection} ${styles[`excerptSection--${provider}`]} ${isHoverActivated ? styles['excerptSection--activated'] : ''}`}
       onMouseEnter={() => setIsHoverActivated(true)}
     >
       <div className={styles.excerptSection__text}>

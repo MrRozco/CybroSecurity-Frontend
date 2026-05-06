@@ -60,7 +60,7 @@ const Footer = ({ data }) => {
         )}
 
         <p className={styles.footer__copyright}>
-          &copy; {new Date().getFullYear()} CybroSecurity. All rights reserved. Site made by <a href='https://appleseedsited.com' target="_blank" rel="noopener noreferrer">AppleSeed Web Solutions</a>.
+          &copy; {new Date().getFullYear()} CybroSecurity. All rights reserved. Site made by <a style={{ color: '#19cff9' }} href='https://appleseedsited.com' target="_blank" rel="noopener noreferrer">AppleSeedSites</a>.
         </p>
       </div>
     </footer>
