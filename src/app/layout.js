@@ -39,6 +39,14 @@ export const metadata = {
   },
   description: "Professional cybersecurity solutions and services to protect your digital assets",
   keywords: ["cybersecurity", "security", "IT security", "cyber protection"],
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    shortcut: ['/favicon.ico'],
+    apple: [{ url: '/apple-icon.png', type: 'image/png' }],
+  },
 };
 
 export default async function RootLayout({ children }) {
