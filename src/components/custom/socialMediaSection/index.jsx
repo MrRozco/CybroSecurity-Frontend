@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
+import { formatAuthorName } from '@/lib/author';
 import styles from './styles.module.scss';
 
 const LINKEDIN_EMBED_HEIGHT = 620;
@@ -100,10 +101,73 @@ const getLinkedInEmbedUrl = (linkedinUrl) => {
   return null;
 };
 
+const getAuthorName = (author) => {
+  if (!author) return '';
+
+  return (
+    author?.Name ||
+    author?.name ||
+    author?.attributes?.Name ||
+    author?.attributes?.name ||
+    author?.data?.Name ||
+    author?.data?.name ||
+    author?.data?.attributes?.Name ||
+    author?.data?.attributes?.name ||
+    ''
+  );
+};
+
+const humanizeAuthorSlug = (value = '') =>
+  decodeURIComponent(value)
+    .replace(/^@/, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const getOembedAuthorName = (oembed, postUrl) => {
+  if (oembed?.author_name) {
+    return oembed.author_name;
+  }
+
+  const candidateUrl = oembed?.author_url || postUrl;
+  if (!candidateUrl) return '';
+
+  try {
+    const parsed = new URL(candidateUrl);
+    const segments = parsed.pathname.split('/').filter(Boolean);
+
+    if (segments.length === 0) return '';
+
+    const inIndex = segments.findIndex((segment) => ['in', 'company', 'school', 'user'].includes(segment));
+    if (inIndex !== -1 && segments[inIndex + 1]) {
+      return humanizeAuthorSlug(segments[inIndex + 1]);
+    }
+
+    const atSegment = segments.find((segment) => segment.startsWith('@'));
+    if (atSegment) {
+      return humanizeAuthorSlug(atSegment);
+    }
+
+    const postSegment = segments.find((segment) => segment.includes('_'));
+    if (postSegment) {
+      return humanizeAuthorSlug(postSegment.split('_')[0]);
+    }
+
+    return humanizeAuthorSlug(segments[segments.length - 1]);
+  } catch {
+    return '';
+  }
+};
+
 export default function SocialMediaEmbed({ data }) {
   if (!data || !data.embed) return null;
 
   const { url, oembed, thumbnail } = data.embed;
+  const rawComponentAuthorName = getAuthorName(data?.author);
+  const componentAuthorName = rawComponentAuthorName
+    ? formatAuthorName(rawComponentAuthorName)
+    : null;
+  const oembedAuthorName = getOembedAuthorName(oembed, url);
   const twitterContainerRef = useRef(null);
   const htmlEmbedContainerRef = useRef(null);
   const [hasMounted, setHasMounted] = useState(false);
@@ -520,6 +584,11 @@ export default function SocialMediaEmbed({ data }) {
         {(data?.title || data?.summary) && (
           <div className={styles.sectionHeader}>
             {data?.title && <h2 className={styles.sectionTitle}>{data.title}</h2>}
+            {componentAuthorName && (
+              <p className={styles.sectionAuthor}>
+                by <span className={styles.sectionAuthorName}>{componentAuthorName}</span>
+              </p>
+            )}
             {data?.summary && <p className={styles.sectionSummary}>{data.summary}</p>}
           </div>
         )}
@@ -528,18 +597,22 @@ export default function SocialMediaEmbed({ data }) {
 
         {oembed?.title && <h3 className={styles.embedTitle}>{oembed.title}</h3>}
 
-        {oembed?.author_name && (
+        {oembedAuthorName ? (
           <p className={styles.embedAuthor}>
             by{' '}
             {oembed?.author_url ? (
-              <a href={oembed.author_url} target="_blank" rel="noopener noreferrer">
-                {oembed.author_name}
+              <a
+                href={oembed.author_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {oembedAuthorName}
               </a>
             ) : (
-              oembed.author_name
+              oembedAuthorName
             )}
           </p>
-        )}
+        ) : null}
 
         {provider === 'generic' && oembed?.description && (
           <p className={styles.embedDescription}>{oembed.description}</p>

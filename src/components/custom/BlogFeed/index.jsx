@@ -17,6 +17,25 @@ export default function BlogFeed({ category, blogs }) {
   const goToNextPage    = () => { if (currentPage < totalPages) setCurrentPage(currentPage + 1); };
   const goToPage        = (page) => { if (page >= 1 && page <= totalPages) setCurrentPage(page); };
 
+  const getVisiblePages = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, idx) => idx + 1);
+    }
+
+    const pages = [1];
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
+
+    if (start > 2) pages.push('ellipsis-left');
+    for (let page = start; page <= end; page += 1) pages.push(page);
+    if (end < totalPages - 1) pages.push('ellipsis-right');
+
+    pages.push(totalPages);
+    return pages;
+  };
+
+  const visiblePages = getVisiblePages();
+
   return (
     <section className={`container ${styles.blogFeed}`}>
       <h1 className={styles.blogFeed__heading}>{category.Name}</h1>
@@ -67,15 +86,26 @@ export default function BlogFeed({ category, blogs }) {
             Previous
           </button>
 
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index + 1}
-              onClick={() => goToPage(index + 1)}
-              className={`${styles.pagination__btn} ${currentPage === index + 1 ? styles['pagination__btn--active'] : styles['pagination__btn--default']}`}
-            >
-              {index + 1}
-            </button>
-          ))}
+          {visiblePages.map((page, index) => {
+            if (typeof page !== 'number') {
+              return (
+                <span key={`${page}-${index}`} className={styles.pagination__ellipsis} aria-hidden="true">
+                  …
+                </span>
+              );
+            }
+
+            return (
+              <button
+                key={page}
+                onClick={() => goToPage(page)}
+                className={`${styles.pagination__btn} ${currentPage === page ? styles['pagination__btn--active'] : styles['pagination__btn--default']}`}
+                aria-current={currentPage === page ? 'page' : undefined}
+              >
+                {page}
+              </button>
+            );
+          })}
 
           <button
             onClick={goToNextPage}

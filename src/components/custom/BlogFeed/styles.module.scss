@@ -7,12 +7,25 @@
 
 .blogFeed {
   padding: $space-4;
+
+  @include respond-to(md) {
+    padding: $space-4 $space-3;
+  }
 }
 
 .blogFeed__heading {
-  font-size: 1.875rem;
-  font-weight: bold;
+  color: $color-primary;
+  font-family: 'Jersey 15', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 10vw, 5.2rem);
+  line-height: 1;
+  text-align: center;
   margin-bottom: $space-6;
+
+  @include respond-to(md) {
+    margin-bottom: $space-5;
+  }
 }
 
 .blogFeed__grid {
@@ -30,18 +43,26 @@
   display: block;
   @include transition(transform);
 
-  &:hover {
-    transform: scale(1.03);
+  @include respond-above(md) {
+    &:hover {
+      transform: scale(1.03);
+    }
   }
 }
 
 .blogCard__inner {
   padding: $space-4;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+  @include respond-to(md) {
+    padding: $space-3;
+  }
 }
 
 .blogCard__imageWrap {
   position: relative;
+  border-radius: 0.25rem;
+  overflow: hidden;
 }
 
 .blogCard__overlay {
@@ -50,23 +71,39 @@
 }
 
 .blogCard__image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  display: block;
   object-fit: cover;
   border-radius: 0.25rem;
 }
 
 .blogCard__title {
   position: absolute;
-  bottom: $space-4;
-  left: $space-4;
-  font-size: 3.75rem !important; // text-6xl
+  bottom: $space-3;
+  left: $space-3;
+  right: $space-3;
+  font-size: clamp(1.35rem, 4.2vw, 2.5rem) !important;
+  line-height: 1.1;
   font-weight: 600;
   color: $color-text;
   z-index: $z-nav;
+  text-wrap: balance;
 }
 
 .blogCard__excerpt {
   color: $color-text-muted;
   margin-top: $space-4;
+  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+  line-height: 1.55;
+
+  @include truncate(3);
+
+  @include respond-to(md) {
+    margin-top: $space-3;
+    @include truncate(4);
+  }
 }
 
 // ===== Pagination =====
@@ -74,15 +111,28 @@
   @include flex-center;
   gap: $space-2;
   margin-top: $space-6;
+  flex-wrap: wrap;
+
+  @include respond-to(md) {
+    gap: $space-1;
+  }
 }
 
 .pagination__btn {
   padding: $space-2 $space-4;
+  min-width: 2.5rem;
   border-radius: 0.25rem;
   border: none;
   font-family: inherit;
+  font-size: 0.95rem;
   cursor: pointer;
   @include transition;
+
+  @include respond-to(md) {
+    padding: 0.4rem 0.65rem;
+    min-width: 2.1rem;
+    font-size: 0.85rem;
+  }
 
   &--active {
     background-color: $color-primary-dark;
@@ -103,4 +153,9 @@
       background-color: darken($color-bg-hover, 5%);
     }
   }
+}
+
+.pagination__ellipsis {
+  color: $color-text-muted;
+  padding: 0 $space-1;
 }

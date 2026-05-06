@@ -1,10 +1,31 @@
 'use client';
 
 import { useState } from 'react';
+import { formatAuthorName } from '@/lib/author';
 import styles from './styles.module.scss';
+
+const getAuthorName = (author) => {
+  if (!author) return '';
+
+  return (
+    author?.Name ||
+    author?.name ||
+    author?.attributes?.Name ||
+    author?.attributes?.name ||
+    author?.data?.Name ||
+    author?.data?.name ||
+    author?.data?.attributes?.Name ||
+    author?.data?.attributes?.name ||
+    ''
+  );
+};
 
 export default function ExcerptSectionClient({ data, previewImage, hostname, linkLabel }) {
   const [isHoverActivated, setIsHoverActivated] = useState(false);
+  const rawComponentAuthorName = getAuthorName(data?.author);
+  const componentAuthorName = rawComponentAuthorName
+    ? formatAuthorName(rawComponentAuthorName)
+    : null;
 
   return (
     <div
@@ -15,6 +36,11 @@ export default function ExcerptSectionClient({ data, previewImage, hostname, lin
         {(data.title || data.summary) && (
           <div className={styles.sectionHeader}>
             {data.title && <h2 className={styles.sectionTitle}>{data.title}</h2>}
+            {componentAuthorName && (
+              <p className={styles.sectionAuthor}>
+                by <span className={styles.sectionAuthorName}>{componentAuthorName}</span>
+              </p>
+            )}
             {data.summary && <p className={styles.sectionSummary}>{data.summary}</p>}
           </div>
         )}

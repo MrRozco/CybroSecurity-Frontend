@@ -43,6 +43,7 @@ export const revalidate = 3600; // Revalidate every hour
 
 export default async function BlogPost({ params }) {
   const blog = await getBlogBySlug(params.slug);
+  const categorySlug = blog?.category?.Slug || blog?.category?.slug;
 
 
   if (!blog) {
@@ -62,20 +63,16 @@ export default async function BlogPost({ params }) {
       )}
       <h1 className={styles.blogPost__title}>{blog.Title}</h1>
       <p className={styles.blogPost__meta}>
-        By {formatAuthorName(blog.author?.Name) || 'Unknown'} |{' '}
+        By <span className={styles.blogPost__authorName}>{formatAuthorName(blog.author?.Name) || 'Unknown'}</span>
+        {blog.category && categorySlug && (
+          <>
+            {' '}| Category <Link href={`/category/${categorySlug}`} className={styles.blogPost__categoryName}>{blog.category.Name}</Link>
+          </>
+        )}
+        {' '}|{' '}
         {new Date(blog.publishedAt).toLocaleDateString()}
         </p>
         {blog.Content && <BlogContent content={blog.Content} />}
-        {blog.category && (
-        <div className={styles.blogPost__category}>
-            <strong>Category: </strong>
-            {
-            <Link href={`/category/${blog.category.Slug}`} key={blog.category.id}>
-                {blog.category.Name}
-            </Link>
-            }
-        </div>
-          )}
     </div>
   );
 }

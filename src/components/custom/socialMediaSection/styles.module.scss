@@ -74,7 +74,8 @@
 }
 
 .socialMediaEmbed--twitter {
-  --embed-border-hover: #56b7f5;
+  --embed-border-color: #56b7f5;
+  --embed-border-hover: #ffffff;
 }
 
 .socialMediaEmbed--facebook {
@@ -164,6 +165,25 @@
   text-transform: none;
 }
 
+.sectionAuthor {
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  margin: $space-1 0 0;
+  text-align: left;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.sectionAuthorName {
+  color: $color-accent;
+  font-family: 'Unkempt', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: none;
+}
+
 // ===== Title & metadata =====
 .embedTitle {
   font-size: 1.2rem;
@@ -185,11 +205,16 @@
   margin: 0 0 $space-4 0;
   text-align: left;
   text-transform: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
 
-  a {
-    color: $color-primary;
-    text-decoration: none;
-    @include transition(color);
+  p { margin: 0; }
+
+  .embedAuthorName {
+    color: $color-accent;
+    font-family: 'Unkempt', sans-serif;
+    font-style: normal;
 
     &:hover {
       color: $color-accent;

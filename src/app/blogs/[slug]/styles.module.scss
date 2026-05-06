@@ -28,16 +28,18 @@
   font-family: sans-serif;
 }
 
-.blogPost__category {
-  margin-top: $space-4;
-  font-size: 1.5rem;
-  font-family: sans-serif;
+.blogPost__authorName {
+  color: $color-accent;
+  font-family: 'Unkempt', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+}
 
-  a {
-    color: $color-primary;
-    margin-right: $space-2;
-    @include transition(color);
-
-    &:hover { color: darken($color-primary, 10%); }
-  }
+.blogPost__categoryName {
+  color: $color-primary;
+  font-family: 'Jersey 15', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.15rem;
+  text-transform: none;
 }

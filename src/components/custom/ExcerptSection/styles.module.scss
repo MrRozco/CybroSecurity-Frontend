@@ -114,6 +114,28 @@
   text-transform: none;
 }
 
+.sectionAuthor {
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  margin: $space-1 0 0;
+  padding-left: 0.5rem;
+  text-align: left;
+  box-sizing: border-box;
+  width: 100%;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.sectionAuthorName {
+  color: $color-accent;
+  font-family: 'Unkempt', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: none;
+}
+
 .embedTitle {
   font-size: 1.2rem;
   font-weight: 600;
@@ -150,6 +172,17 @@
   text-align: left;
   box-sizing: border-box;
   width: 100%;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.embedAuthorName {
+  color: $color-accent;
+  font-family: 'Unkempt', sans-serif;
+  font-style: normal;
+  font-weight: 700;
   text-transform: none;
 }
 

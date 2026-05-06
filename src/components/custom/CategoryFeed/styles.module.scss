@@ -181,11 +181,18 @@
 
 .categoryFeed__authorName {
   color: $color-accent;
+  font-family: 'Unkempt', sans-serif;
+  font-style: normal;
+  font-weight: 700;
   text-transform: none;
 }
 
 .categoryFeed__categoryName {
   color: $color-primary;
+  font-family: 'Jersey 15', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.5rem;
   text-transform: none;
 }
 
