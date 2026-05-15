@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono, Bebas_Neue, Unkempt, Jersey_15 } from "next/font/google";
 import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
-import { getSingleType } from '@/lib/strapi';
+import { getGlobal } from '@/lib/strapi';
 import "./globals.scss";
 
 const bebasNeue = Bebas_Neue({
@@ -68,11 +68,9 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
 
-  const homepage = await getSingleType('homepage');
-
-  const content = Array.isArray(homepage?.content) ? homepage.content : [];
-  const navbar = content.find((item) => item?.__component === 'structure.navbar') || null;
-  const footer = content.find((item) => item?.__component === 'structure.footer') || null;
+  const siteSettings = await getGlobal();
+  const navbar = siteSettings?.navbar ?? null;
+  const footer = siteSettings?.footer ?? null;
 
   return (
     <html lang="en">

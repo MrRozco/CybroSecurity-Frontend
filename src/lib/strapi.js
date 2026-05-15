@@ -39,17 +39,14 @@ export async function fetchFromStrapi(endpoint, query = {}, options = {}) {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP ${response.status} from ${url}`);
     }
 
     const data = await response.json();
     return data.data;
   } catch (error) {
-    console.error(`Error fetching from Strapi: ${endpoint}`, {
-      url,
-      message: error.message,
-    });
-    throw new Error(`Failed to fetch from Strapi: ${endpoint}`);
+    console.error(`[Strapi] ${endpoint} — ${error.message}`);
+    throw new Error(`Failed to fetch ${url}: ${error.message}`);
   }
 }
 
@@ -101,6 +98,11 @@ export async function getBlogsByCategory(categorySlug) {
 // Get a single type or page (example: homepage, about, etc.)
 export async function getSingleType(type) {
   return fetchFromStrapi(type);
+}
+
+// Get Global Settings (navbar, footer, default SEO)
+export async function getGlobal() {
+  return fetchFromStrapiSafe('global', {}, { fallback: null, revalidate: 3600, tags: ['global'] });
 }
 
 // Get a page by slug (for collection type "pages")

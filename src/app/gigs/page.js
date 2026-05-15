@@ -1,34 +1,37 @@
-import { getJobCategories, getJobLevels, getSingleType } from '@/lib/strapi';
-import PageRenderer from '@/components/PageRenderer';
-
-export const metadata = {
-  title: 'Gigs',
-  description: 'Curated job postings and career opportunities at CybroSecurity',
-};
+import { getJobCategories, getJobLevels, fetchFromStrapiSafe } from '@/lib/strapi';
+import JobPostings from '@/components/custom/JobPostings';
 
 export const revalidate = 3600;
 
+export async function generateMetadata() {
+  const gigs = await fetchFromStrapiSafe('gigs', {}, { fallback: null });
+  return {
+    title: gigs?.pageTitle || 'Gigs',
+    description: gigs?.pageDescription || 'Curated job postings and career opportunities at CybroSecurity',
+  };
+}
+
 export default async function GigsPage() {
-  const [gigsResult, jobCategories, jobLevels] = await Promise.all([
-    getSingleType('gigs').catch(() => null),
+  const [gigs, jobCategories, jobLevels] = await Promise.all([
+    fetchFromStrapiSafe('gigs', {}, { fallback: null }),
     getJobCategories(),
     getJobLevels(),
   ]);
 
-  const gigs = gigsResult && typeof gigsResult === 'object' ? gigsResult : { content: [] };
+  const filterOptions = {
+    categories: Array.isArray(jobCategories) ? jobCategories : [],
+    levels: Array.isArray(jobLevels) ? jobLevels : [],
+  };
 
-  const componentProps = {
-    'structure.job-postings': {
-      filterOptions: {
-        categories: Array.isArray(jobCategories) ? jobCategories : [],
-        levels: Array.isArray(jobLevels) ? jobLevels : [],
-      },
-    },
+  const jobPostingsData = {
+    Title: gigs?.sectionTitle,
+    description: gigs?.sectionDescription,
+    job_postings: gigs?.job_postings ?? [],
   };
 
   return (
     <div className="container">
-      <PageRenderer page={gigs} componentProps={componentProps} />
+      <JobPostings data={jobPostingsData} filterOptions={filterOptions} />
     </div>
   );
 }

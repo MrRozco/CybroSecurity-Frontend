@@ -1,5 +1,4 @@
 import MainHeader from "./custom/MainHeader";
-import Navbar from "./global/Navbar"; 
 import CategoryFeed from "./custom/CategoryFeed";
 import CrewHeader from "./custom/CrewHeader";
 import CrewMembers from "./custom/CrewMembers";

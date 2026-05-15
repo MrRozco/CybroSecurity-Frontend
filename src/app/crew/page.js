@@ -1,24 +1,21 @@
-import MainHeader from '@/components/custom/MainHeader';
+import CrewHeader from '@/components/custom/CrewHeader';
+import CrewMembers from '@/components/custom/CrewMembers';
 import { getSingleType } from '@/lib/strapi';
-import PageRenderer from '@/components/PageRenderer';
 
-// Page metadata
 export const metadata = {
-  title: "Our Crew", // Will show as "Our Crew | CybroSecurity"
-  description: "Meet the CybroSecurity team of cybersecurity experts",
+  title: 'Our Crew',
+  description: 'Meet the CybroSecurity team of cybersecurity experts',
 };
 
-// Enable ISR (Incremental Static Regeneration)
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;
 
 export default async function Crew() {
-  
   const crew = await getSingleType('crew');
-
 
   return (
     <div className="container">
-      <PageRenderer page={crew} />
+      {crew?.header && <CrewHeader data={crew.header} />}
+      {crew?.members && <CrewMembers data={crew.members} />}
     </div>
   );
 }

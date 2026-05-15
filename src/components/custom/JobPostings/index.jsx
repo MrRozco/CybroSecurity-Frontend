@@ -12,8 +12,6 @@ export default function JobPostings({ data, filterOptions }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedLevel, setSelectedLevel] = useState('all');
 
-  console.log('JobPostings component received data:', data);
-
   const categoryOptions = useMemo(() => {
     const apiCategories = Array.isArray(filterOptions?.categories)
       ? filterOptions.categories.map((item) => ({

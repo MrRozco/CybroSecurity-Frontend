@@ -8,14 +8,13 @@
 .socialMediaEmbed {
   --embed-border-color: #{$color-primary};
   --embed-border-hover: #{$color-accent};
-  padding: $space-4 $space-4 $space-6 calc(#{$space-4} + 2rem);
-  margin: $space-8 0 $space-10;
+  padding: $space-5 $space-5 $space-5 $space-6;
+  margin: $space-8 0;
   background-color: $color-bg-card;
   border-radius: 0.75rem;
   border: 1px solid rgba(25, 207, 249, 0.22);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-  width: 90%;
-  max-width: 100%;
+  width: 100%;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
@@ -134,10 +133,13 @@
 }
 
 .socialMediaEmbed--leftStack {
-  width: 58%;
-  max-width: 640px;
-  margin-left: $space-4;
-  margin-right: auto;
+  width: 50%;
+}
+
+.sectionSeparator {
+  border: none;
+  border-top: 1px solid rgba(25, 207, 249, 0.15);
+  margin: $space-3 0;
 }
 
 .sectionHeader {
@@ -239,32 +241,9 @@
 }
 
 .socialMediaEmbed--nonYoutube {
-  padding: $space-3 $space-3 $space-5 calc(#{$space-3} + 2rem);
-  margin: $space-6 0 $space-8;
-  margin-left: $space-10;
   height: fit-content;
 }
 
-.socialMediaEmbed--nonYoutube .sectionHeader {
-  margin-bottom: $space-3;
-  padding-bottom: $space-2;
-}
-
-.socialMediaEmbed--nonYoutube .sectionSummary {
-  line-height: 1.45;
-}
-
-.socialMediaEmbed--nonYoutube .embedTitle {
-  margin-bottom: $space-1;
-}
-
-.socialMediaEmbed--nonYoutube .embedAuthor {
-  margin-bottom: $space-2;
-}
-
-.socialMediaEmbed--nonYoutube .embedWrapper {
-  margin-top: $space-2;
-}
 
 // ===== YouTube =====
 .youtubeContainer {
@@ -479,13 +458,8 @@
 
 // ===== Responsive adjustments =====
 @include respond-to(md) {
-  .socialMediaEmbed {
-    width: 100%;
-  }
-
   .socialMediaEmbed--leftStack {
     width: 100%;
-    margin-left: 0;
   }
 
   .socialMediaEmbed--split {
@@ -496,12 +470,8 @@
 
 @include respond-to(sm) {
   .socialMediaEmbed {
-    padding: $space-3 $space-3 $space-5 calc(#{$space-3} + 0.75rem);
-    margin: $space-6 0 $space-8;
-  }
-
-  .socialMediaEmbed--nonYoutube {
-    padding: $space-3 $space-3 $space-5 calc(#{$space-3} + 0.75rem);
+    padding: $space-4 $space-4 $space-4 $space-5;
+    margin: $space-6 0;
   }
 
   .embedTitle {
@@ -512,5 +482,4 @@
   .vimeoContainer {
     padding-bottom: 56.25%;
   }
-
 }
