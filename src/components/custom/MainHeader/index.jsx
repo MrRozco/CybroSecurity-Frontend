@@ -7,11 +7,34 @@ import { getStrapiMediaUrl } from "@/lib/strapi";
 import { formatAuthorName } from "@/lib/author";
 import styles from "./styles.module.scss";
 
+const articleKey = (article) => article?.documentId ?? article?.Slug ?? article?.id;
+
+/**
+ * Works out which article is the big one and which go in the sidebar.
+ *
+ * Current CMS fields: `mainArticle` (one) + `sideArticles` (ordered list).
+ * Legacy field: `blogs`, where the first item was the main article.
+ */
+function resolveArticles(data) {
+  const main = data?.mainArticle ?? null;
+  const side = (Array.isArray(data?.sideArticles) ? data.sideArticles : []).filter(Boolean);
+
+  if (main || side.length > 0) {
+    // No main article picked: promote the first side article so the header isn't empty.
+    const mainArticle = main ?? side[0];
+    const sideArticles = side.filter((article) => articleKey(article) !== articleKey(mainArticle));
+    return { mainArticle, sideArticles };
+  }
+
+  const [mainArticle = null, ...sideArticles] = (Array.isArray(data?.blogs) ? data.blogs : []).filter(Boolean);
+  return { mainArticle, sideArticles };
+}
+
 export default function MainHeader({ data }) {
-  if (!data.blogs || data.blogs.length === 0) return null;
+  const { mainArticle: firstBlog, sideArticles: otherBlogs } = resolveArticles(data);
+  const sideTitle = data?.sideTitle?.trim() || "Top Stories";
 
   const desktopFeaturedBottomPadding = 96;
-  const [firstBlog, ...otherBlogs] = data.blogs;
   const featuredMediaRef = useRef(null);
   const featuredMetaRef = useRef(null);
   const [featuredSpacing, setFeaturedSpacing] = useState(0);
@@ -56,6 +79,9 @@ export default function MainHeader({ data }) {
     };
   }, [desktopFeaturedBottomPadding, firstBlog?.Title, firstBlog?.Excerpt, firstBlog?.author?.Name, firstBlog?.category?.Name]);
 
+  // After the hooks, so they run in the same order on every render.
+  if (!firstBlog) return null;
+
   return (
     <header className={`container ${styles.mainHeader}`}>
       <div className={styles.mainHeader__inner}>
@@ -65,13 +91,15 @@ export default function MainHeader({ data }) {
             <Link href={`/blogs/${firstBlog.Slug}`} className={styles.mainHeader__featuredLink}>
               <div style={{ position: "relative" }} ref={featuredMediaRef}>
                 <div className={styles.mainHeader__overlay} />
-                <Image
-                  src={getStrapiMediaUrl(firstBlog.FeaturedImage.url)}
-                  alt={firstBlog.FeaturedImage.alternativeText || firstBlog.Title}
-                  width={900}
-                  height={700}
-                  className={styles.mainHeader__featuredImage}
-                />
+                {firstBlog.FeaturedImage?.url && (
+                  <Image
+                    src={getStrapiMediaUrl(firstBlog.FeaturedImage.url)}
+                    alt={firstBlog.FeaturedImage.alternativeText || firstBlog.Title}
+                    width={900}
+                    height={700}
+                    className={styles.mainHeader__featuredImage}
+                  />
+                )}
                 <div className={styles.mainHeader__featuredMeta} ref={featuredMetaRef}>
                   <h1 className={styles.mainHeader__featuredTitle}>{firstBlog.Title}</h1>
                   <p className={styles.mainHeader__featuredExcerpt}>{firstBlog.Excerpt}</p>
@@ -99,13 +127,13 @@ export default function MainHeader({ data }) {
 
         {/* Side stories */}
         <div className={styles.mainHeader__side}>
-          <p className={styles.mainHeader__topStoriesLabel}>Top Stories</p>
+          <p className={styles.mainHeader__topStoriesLabel}>{sideTitle}</p>
 
           {otherBlogs.length > 0 ? (
             otherBlogs.map((blog) => (
               <Link
                 href={`/blogs/${blog.Slug}`}
-                key={blog.id}
+                key={articleKey(blog)}
                 className={styles.mainHeader__storyItem}
               >
                 <div className={styles.mainHeader__storyContent}>
@@ -126,13 +154,15 @@ export default function MainHeader({ data }) {
                   </div>
                 </div>
                 <div className={styles.mainHeader__storyThumb}>
-                  <Image
-                    src={getStrapiMediaUrl(blog.FeaturedImage.url)}
-                    alt={blog.FeaturedImage.alternativeText || blog.Title}
-                    width={200}
-                    height={112}
-                    className={styles.mainHeader__storyImage}
-                  />
+                  {blog.FeaturedImage?.url && (
+                    <Image
+                      src={getStrapiMediaUrl(blog.FeaturedImage.url)}
+                      alt={blog.FeaturedImage.alternativeText || blog.Title}
+                      width={200}
+                      height={112}
+                      className={styles.mainHeader__storyImage}
+                    />
+                  )}
                 </div>
               </Link>
             ))
