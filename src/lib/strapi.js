@@ -91,6 +91,10 @@ export async function getJobLevels() {
 export async function getBlogsByCategory(categorySlug) {
   const blogs = await fetchFromStrapi('blogs', {
     filters: { category: { Slug: { $eq: categorySlug } } },
+    // Newest first: the article's publish date, then Strapi's publish timestamp as a tiebreaker.
+    sort: ['PublishedDate:desc', 'publishedAt:desc'],
+    // Strapi returns 25 by default; fetch up to the API max so BlogFeed can paginate them all.
+    pagination: { pageSize: 100 },
   });
   return blogs || [];
 }
